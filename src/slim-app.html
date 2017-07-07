@@ -1,0 +1,359 @@
+<link rel="import" href="/bower_components/polymer/polymer.html" />
+<link rel="import" href="/bower_components/app-layout/app-layout.html" />
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="/bower_components/paper-item/paper-item.html" />
+<link rel="import" href="/bower_components/paper-listbox/paper-listbox.html" />
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html" />
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html" />
+<link rel="import" href="/src/slim-footer.html" />
+<link rel="import" href="/src/slim-overlay.html" />
+
+<dom-module id="slim-app">
+    <template>
+<style>
+h1 {
+    margin-bottom: 10px;
+    font-size: 48px;   
+    font-weight: 200;
+}
+
+h2{
+    margin-bottom: 10px;
+    font-size: 24px;   
+    font-weight: 200;
+}
+
+h3 {
+    margin-bottom: 10px;
+    font-size: 18px;   
+    font-weight: 500;
+}
+
+h5 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+
+/* Navbar */
+
+#navbar {
+    width: 100%;
+    height: 100%;
+    background-color: #232323;
+    margin: 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+}
+
+.navbar-logo {
+    height:80px;
+}
+
+.navbar-menu {
+   
+}
+
+.navbar-menu ul {
+    list-style-type: none;
+}
+
+.navbar-menu li{
+    display: inline;
+}
+
+.navbar-menu li a{
+    color: #f1f1f1;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 0px 40px 0px 0px;
+}
+
+.navbar-menu li a:hover{
+    color: #BFC218;
+    text-decoration: none;
+}
+
+.navbar-container{
+    display: inline-flex;
+}
+
+/* Slider */
+#header {
+    background: #333333;
+    width:100%;
+}
+
+#slider{
+    background: url(../images/bg.jpg) no-repeat center center fixed;
+    height:100%;
+    position: relative; 
+    z-index: -1;
+}
+
+
+
+/* Content */
+.slider-splatters{
+    background: url(../images/header-splatters.svg) no-repeat;
+    height: 550px;
+    width: 700px;
+    padding: 180px 0px 0px 0px;
+    position: absolute;
+    margin: -500px 0px 0px -300px;
+}
+
+#content {
+    background-color:none;
+    margin: 150px;
+    text-align:center;
+}
+
+.btn-primary{
+    color: #fff;
+    text-decoration: none;
+    background-color:#BFC218;
+    padding: 15px 25px 15px 25px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 25px;
+    font-weight: 700;
+    text-align: center;
+} 
+
+.text-link {
+    color: #fff;
+}
+
+#content p{
+    line-height: 1.9;
+}
+
+/* Diensten */
+
+#diensten {
+    background: #232323;
+    width: 100%;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.diensten-container{
+    display: flex;
+}
+
+.center {
+    margin: auto;
+    width: 75%;
+}
+
+.full-height{
+    height:100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-card {
+    width: 270px;
+    height: 300px;
+    background:#fff;
+    color: #333;
+    margin: 10px 20px 0px 0px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.text-card:hover {
+    width: 270px;
+    height: 300px;
+    background:#BFC218;
+    color: #fff;
+    margin: 10px 20px 0px 0px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.splatter{
+    display: none;
+    background: url(../images/splatter.svg) no-repeat;
+    margin-top: -20px;
+    margin-left: -30px;
+    width: 5px;
+    height: 5px;
+    position: absolute;
+}
+
+.text-card-top{
+    height: 50%;
+    background:red;
+}
+    
+.text-card:hover .splatter {
+    display: block;
+}
+
+.text-card-bottom{
+    padding: 20px;
+}
+
+/* Testimonials */
+
+#testimonials{
+    background: url(../images/bg-testimonial.jpg) no-repeat center center fixed;
+    height:80%;
+    position: relative; 
+    z-index: -1;
+    background-size:cover;
+    padding-top: 100px;
+}
+
+.quote {
+       background: url(../images/stripes.svg)no-repeat;
+       height: 300px;
+       width: 760px;
+       padding: 90px 80px 100px 100px;
+       margin: auto;
+       margin-left: 500px;
+}
+
+.toolbar {
+            height:160px;
+        }
+
+.menu-btn { display:none}
+/* small screen */
+      @media (max-width: 767px) {
+        :host {
+          padding-top: 64px;
+        }
+        .menu-btn {
+          display: block;
+        }
+        :host([page=detail]) .menu-btn {
+          display: none;
+        }
+        .navbar-menu {
+            display:none
+        }
+
+        .toolbar {
+            height:60px;
+        }
+        .navbar-logo {
+            height:40px
+        }
+      }
+
+:root { --app-toolbar-background:#303030;}
+</style>
+
+   <app-header  condenses fixed>
+        <app-toolbar class="toolbar" >
+            <paper-icon-button icon="menu" class="menu-btn" on-tap="toggle"></paper-icon-button>
+            <div main-title style="display:flex;align-items:center;flex-direction:column;">
+                       <img class="navbar-logo" src="../images/logo.svg"/>
+                <div class="navbar-menu">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Diensten</a></li>
+                        <li><a href="#">Tarieven</a></li>
+                        <li><a href="#">Portfolio</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                 </div>
+            </div>
+        </app-toolbar>
+    </app-header>
+    <app-drawer id="drawer" swipe-open>
+         <app-toolbar>
+            <div main-title>
+            
+
+            </div>
+        </app-toolbar>
+        <paper-listbox>
+            <paper-item>Home</paper-item>
+            <paper-item>Diensten</paper-item>
+            <paper-item>Tarieven</paper-item>
+            <paper-item>Portfolio</paper-item>
+        </paper-listbox>
+    </app-drawer>
+
+         <slim-overlay src="/images/header-splatters.svg"></slim-overlay>
+
+<section id= "slider">
+</section>
+
+<section id= "content"> 
+        
+    <h1>Welkom bij S-L-I-M</h1>
+    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+        otam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. </p>
+        <div><a class= "btn-primary" href="#">Ik wil contact opnemen</a></div>
+        <div><a class= "text-link" href="#">meer informatie</a></div>
+
+</section>
+
+<section id= "diensten">
+        <div class="text-center"> <h2> Waarmee kunnen wij u van dienst zijn? </h2> </div>
+        <div class="diensten-container center">
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Dienst </h3>
+                    <p> Beschrijving van Dienst komt hier </p>
+                </div>
+            </div>
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Dienst </h3>
+                    <p> Beschrijving van Dienst komt hier </p>
+                </div>
+            </div>
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Dienst </h3>
+                    <p> Beschrijving van Dienst komt hier </p>
+                </div>
+            </div>
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Dienst </h3>
+                    <p> Beschrijving van Dienst komt hier </p>
+                </div>
+            </div>
+        </div>
+</section>
+
+<section id= "testimonials"> 
+    <div class= "quote">
+        <p>Met oog voor detail. Zo kan ik het afgeleverde werk van 
+S-L-I-M beschrijven. Niet alleen ons buitenschilderwerk werd professioneel onder handen genomen, ook de binnenkant van de kozijnen werd vakkundig afgewerkt. Ik ben erg tevreden met het resultaat! </p>
+           <div><a class= "btn-primary" href="#">Ik wil contact opnemen</a></div>
+    </div>
+    
+</section>
+
+        <slim-footer></slim-footer>
+
+    </template>
+    <script>
+        Polymer({ is:'slim-app', toggle(){ this.$.drawer.toggle()}});
+    </script>

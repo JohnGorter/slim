@@ -1,0 +1,78 @@
+<dom-module id="slim-footer">
+    <template>
+        <style>
+        /* Footer */
+
+  #footer {
+    height: 150px;
+    background-color: #232323;
+    margin: 0;
+    padding: 67px;
+    display: flex;
+    }
+
+    #footer a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    #footer h1 {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    #footer .social ul li { 
+        display: inline; 
+        margin: 0px 20px 0px 20px;    
+    }
+
+    #footer ul {
+        font-size: 16px;
+        font-weight: 100;
+        list-style-type: none;
+    }
+
+    .md-2 {
+        width: 25%;
+    }
+
+    .md-4 {
+        width: 50%;
+    }
+    .footer-menu {
+        line-height: 2.5;
+    }
+    </style>
+
+    <section id= "footer">
+    <div class="md-2">
+        <h1>Neem contact op</h1>
+            <ul>
+                <li>Gerald van Dongen</li>
+                <li>+31 (0)6 101 517 41</li>
+                <li>info@s-l-i-m.nl</li>
+            </ul>
+    </div>
+    <div class="social md-4">
+            <ul>
+                <li><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></li>
+                <li><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></li>
+                <li><i class="fa fa-youtube fa-2x" aria-hidden="true"></i></li>
+            </ul>
+    </div>
+    <div class="md-2 footer-menu">
+            <ul>
+                <li><a href="#">Sitemap</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Diensten</a></li>
+            </ul>
+    </div>
+    </section>
+
+    </template>
+    <script>
+        Polymer({
+            is:'slim-footer'
+        })
+    </script>
+</dom-module>
