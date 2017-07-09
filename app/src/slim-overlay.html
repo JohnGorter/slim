@@ -1,8 +1,8 @@
 <dom-module id="slim-overlay">
     <template>
         <style>
-            .overlay { position:fixed;bottom:-200px;left:-200px;height:450px;}
-            .title { position:fixed;left:-20px;bottom:75px;display:flex;justify-content:center;width:250px;font-family:tahoma, sans serif;font-size:18px;}
+            .overlay { z-index:90;position:fixed;bottom:-200px;left:-200px;height:450px;}
+            .title { z-index:95;position:fixed;left:-20px;bottom:75px;display:flex;justify-content:center;width:250px;font-family:tahoma, sans serif;font-size:18px;}
 
             @media (max-width: 767px) {
                 .overlay { position:fixed;bottom:-120px;left:-120px;height:250px;}

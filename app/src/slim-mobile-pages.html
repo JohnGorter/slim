@@ -1,0 +1,66 @@
+<link rel="import" href="/bower_components/iron-pages/iron-pages.html" />
+
+<dom-module id="slim-mobile-pages">
+    <template>
+        <style>
+            div.fullscreen { position:absolute;left:0px;top:60px;width:100vw;height:100vh;background-color: #303030;}
+            div.screen { display:flex;justify-content: flex-start;align-items:center;flex-flow:column;width:300px;margin-left:10px;height:300px;background-color: #303030;}
+            div.diensten-container { display:flex;font-size:12px;}
+            .title { font-weight:bold;font-family: Tahoma}
+            .screen img { width:75px;height:75px;border-radius:75px;}
+            .screen .text-card { margin:25px;}
+        </style>
+        <iron-pages selected="{{selectedpage}}">
+            <div class="screen">
+                <h1>Welkom bij S-L-I-M</h1>
+                <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+                    otam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                <div><a class= "btn-primary" href="#">Ik wil contact opnemen</a></div>
+                <div><a class= "text-link" href="#">meer informatie</a></div>
+            </div>
+            <section>
+                 <div class="screen">
+                     <h1>Onze diensten</h1>
+                     <div class="diensten-container center">
+                    
+                    
+                    <div class="text-card">
+                        <div class="text-card-top">
+                            <img src="../images/dienst1.jpg"/>
+                         </div>
+                        <div class="text-card-bottom">
+                            <h3> Dienst </h3>
+                            <p> Beschrijving van Dienst komt hier </p>
+                        </div>
+                    </div>
+                    <div class="text-card">
+                         <div class="text-card-top">
+                            <img src="../images/dienst1.jpg"/>
+                        </div>
+                        <div class="text-card-bottom">
+                            <h3> Dienst </h3>
+                            <p> Beschrijving van Dienst komt hier </p>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </section>
+            <section>
+                <div class="fullscreen">
+                <slim-image-caroussel>Image caroussel 
+                    fault</slim-image-caroussel>
+                </div>
+            </section>
+            <section></section>
+        </iron-pages>
+    </template>
+    <script>
+    Polymer({
+      is:'slim-mobile-pages',
+      _logPage(){
+          console.log('page switch');
+      }
+    })
+    </script>
+</dom-module>

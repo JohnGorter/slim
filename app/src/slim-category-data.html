@@ -1,0 +1,20 @@
+<dom-module id="slim-category-data">
+    <template>
+        {{categories}}
+    </template>
+    <script>
+    Polymer({
+      is:'slim-category-data',
+      ready(){
+        console.log('ready');
+      },
+      properties:{
+          categories:{
+              type:Array,
+              notify:true,
+              value:["home", "Diensten", "Tarieven", "Portfolio", "Contact"]
+          }
+      }
+    })
+    </script>
+</dom-module>

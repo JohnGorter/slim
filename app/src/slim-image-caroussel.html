@@ -1,0 +1,116 @@
+<dom-module id="slim-image-caroussel">
+    <template>
+        <style>
+        #container { position:fixed ;display:flex;align-items:center;width:100vw;height:100vh;background-color:gray}
+        .image { position:absolute;width:100vw;height:100vh;background-color:green;transition: transform 0.3s ease-out, opacity 0.2s ease-out}
+        .image.selected {position:absolute;width:100vw;height:100vh;background-color:red;opacity:1}
+        .image.selected.moving {position:absolute;width:100vw;height:100vh;background-color:red;opacity:0.7}
+        
+        </style>
+        <div id="container">
+            <div class="image" style="background:url('/images/1.jpg') no-repeat center center;background-size: contain;background-color:black;" ontouchstart="md()" ontouchmove="mm
+            ()" ontouchend="mu()" on-mouseout="mu"></div>
+            <div class="image" style="background:url('/images/2.jpg') no-repeat center center;background-size: contain;background-color:black;"ontouchstart="md()" ontouchmove="mm()" ontouchend="mu()" on-mouseout="mu"></div>
+            <div class="image" style="background:url('/images/3.jpg') no-repeat center center;background-size: contain;background-color:black;"ontouchstart="md()" ontouchmove="mm()" ontouchend="mu()" on-mouseout="mu"></div>
+        </div>
+    </script>
+    </body>
+</html>
+    </template>
+    <script>
+        
+    var isTracking = false;
+    var offset = 0;
+    var player;
+    var finishpos = 0;
+    var a = [];
+
+     md(){
+            isTracking = true;
+             offset = event.changedTouches[0].pageX;
+             this.addClass(event.srcElement, 'selected');
+             this.addClass(event.srcElement, 'moving');
+             event.preventDefault();
+             
+      },
+      mm(){
+            if (!isTracking) return;
+            event.preventDefault()
+            var oldleft =  event.srcElement.style.left ?  event.srcElement.style.left :0;
+            var newint = parseInt(oldleft);
+            newint += parseInt(event.changedTouches[0].pageX) - parseInt(offset);
+            newint = `${newint}px`;
+            event.srcElement.style.left = newint;
+            var center = (event.srcElement.getBoundingClientRect().width/2) + event.srcElement.getBoundingClientRect().left;
+            var windowcenter = window.innerWidth /2;
+            var newrotate = "rotate(" + (center > windowcenter? "" : "-") + "0deg)";
+            event.srcElement.style.transform = newrotate;
+        },
+        mu(){
+            event.srcElement.style.transform = "rotate(0deg)";
+            this.completeGesture(event.srcElement);
+            isTracking = false;
+        },
+        completeGesture(elem){
+            if (!isTracking) return;
+            if (player != undefined) return;
+
+            var center = (elem.getBoundingClientRect().width/2) + elem.getBoundingClientRect().left;
+            var windowcenter = window.innerWidth /6;
+            var elementcenter = (windowcenter * 3) - (elem.getBoundingClientRect().width/2);
+            var direction = center < windowcenter ? -400: center > (windowcenter * 5) ? 1400: (elementcenter - elem.getBoundingClientRect().left);
+            finishpos =direction == -400? -1: direction == 1400 ? 1 : 0;
+            player = elem.animate([
+                {transform:'translateX(0px)'},
+                {transform:'translateX(' + direction + 'px)'}
+            ], {
+                duration:400,
+                delay:0,
+                easing: 'ease-in-out'
+            });
+
+            player.onfinish = () => {
+                player = undefined;
+                var width = elem.getBoundingClientRect().width;
+                elem.style.left = finishpos < 0 ? '-400px' : finishpos > 0 ? '1400px': ((window.innerWidth/2) - (width/2)) + 'px';
+                if (finishpos == 0) this.removeClass(elem,'moving');
+                if (finishpos != 0) {
+                    this.removeClass(elem,'selected');
+                    this.sortImages();
+                    console.log('resetting the images', a);
+                    for (var i = 0; i < a.length; i++)
+                    {
+                        console.log(a[i].innerHTML);
+                        a[i].style.zIndex = a[i].style.zIndex + 1;
+                        a[i].style.left = ((window.innerWidth/2) - (width/2)) + 'px';
+                    }
+                    elem.style.zIndex = 0;
+                }
+            
+            };
+        },
+        addClass(elem, name) {
+            if (!event.srcElement.classList.contains(name)){
+                event.srcElement.className += " " + name;
+            }
+        },
+        removeClass(elem, name) {
+            elem.className = elem.className.replace(name, '');
+        }
+        
+
+    Polymer({
+      is:'slim-image-caroussel',
+      ready(){
+            a = Polymer.dom(this.root).querySelectorAll(".image");
+            
+      },
+      sortImages(){
+            Array.prototype.slice.call(a).sort(function (a, b) {
+                return a.style.zIndex < b.style.zIndex;
+            });
+      },
+     
+    })
+    </script>
+</dom-module>
