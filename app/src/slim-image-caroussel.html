@@ -1,116 +1,133 @@
 <dom-module id="slim-image-caroussel">
     <template>
         <style>
-        #container { position:fixed ;display:flex;align-items:center;width:100vw;height:100vh;background-color:gray}
-        .image { position:absolute;width:100vw;height:100vh;background-color:green;transition: transform 0.3s ease-out, opacity 0.2s ease-out}
-        .image.selected {position:absolute;width:100vw;height:100vh;background-color:red;opacity:1}
-        .image.selected.moving {position:absolute;width:100vw;height:100vh;background-color:red;opacity:0.7}
-        
+            h1 { position:relative;top:500px;text-align:center;align-self:flex-end;width:100vw;height:30px;color:white;z-index:99;font-family:tahoma;font-size:12px;font-weight:normal;}
+            #container { position:fixed ;display:flex;align-items:flex-start;justify-content:flex-start;flex-flow:column;width:100vw;height:90vh;background-color:#303030}
+            .image { -webkit-transform: translate3d(0,0,0);position:absolute;width:100vw;height:80vh;}
+            .image.moving {position:absolute;width:100vw;height:500px;opacity:1}
         </style>
         <div id="container">
-            <div class="image" style="background:url('/images/1.jpg') no-repeat center center;background-size: contain;background-color:black;" ontouchstart="md()" ontouchmove="mm
-            ()" ontouchend="mu()" on-mouseout="mu"></div>
-            <div class="image" style="background:url('/images/2.jpg') no-repeat center center;background-size: contain;background-color:black;"ontouchstart="md()" ontouchmove="mm()" ontouchend="mu()" on-mouseout="mu"></div>
-            <div class="image" style="background:url('/images/3.jpg') no-repeat center center;background-size: contain;background-color:black;"ontouchstart="md()" ontouchmove="mm()" ontouchend="mu()" on-mouseout="mu"></div>
+            <template is="dom-repeat" items="{{images}}">
+                    <div class="image" alt$="{{item}}" style$="background:url('{{item}}') no-repeat center center;background-size: 100% 100%;height:480px;width:100vw;"></div>
+            </template>
+            <h1 id="details">details</h1>
         </div>
     </script>
     </body>
 </html>
     </template>
     <script>
-        
-    var isTracking = false;
-    var offset = 0;
     var player;
+    var origleft;
     var finishpos = 0;
     var a = [];
+    var interval;
+    var i = 0;
 
-     md(){
-            isTracking = true;
-             offset = event.changedTouches[0].pageX;
-             this.addClass(event.srcElement, 'selected');
-             this.addClass(event.srcElement, 'moving');
-             event.preventDefault();
-             
-      },
-      mm(){
-            if (!isTracking) return;
-            event.preventDefault()
-            var oldleft =  event.srcElement.style.left ?  event.srcElement.style.left :0;
-            var newint = parseInt(oldleft);
-            newint += parseInt(event.changedTouches[0].pageX) - parseInt(offset);
-            newint = `${newint}px`;
-            event.srcElement.style.left = newint;
-            var center = (event.srcElement.getBoundingClientRect().width/2) + event.srcElement.getBoundingClientRect().left;
-            var windowcenter = window.innerWidth /2;
-            var newrotate = "rotate(" + (center > windowcenter? "" : "-") + "0deg)";
-            event.srcElement.style.transform = newrotate;
+    Polymer({
+        is:'slim-image-caroussel',
+        ready(){
+          // let repeater finish...
+          this.async(() => {
+            var i = 0;
+            const slot = Polymer.dom(this.root).querySelectorAll(".image");
+            slot.forEach(function(element) {
+                if (element.nodeType == 1) {
+                    element.style.zIndex = i++;
+                    element.style.left = '0px'; //((window.innerWidth/2) - (element.getBoundingClientRect().width/2)) + 'px';
+                    a.push(element);
+                }
+            }, this);
+            this._updateDetails();
+            this.listen(this, 'track', '_track');
+          });
         },
-        mu(){
-            event.srcElement.style.transform = "rotate(0deg)";
-            this.completeGesture(event.srcElement);
-            isTracking = false;
+        sortImages(){
+            Array.prototype.slice.call(a).sort(function (a, b) {
+                return a.style.zIndex > b.style.zIndex;
+            });
+        },
+        addClass(elem, name) {
+            if (!elem.classList.contains(name)){
+                elem.className += " " + name;
+            }
+        },
+        removeClass(elem, name) {
+            elem.className = elem.className.replace(name, '');
+        },
+         _track(){
+             var element;
+             if (event.path)
+                 element = event.path[0];
+            else
+                element = this._getTopMostImage();
+
+            // only track images
+           // if (!element.className.contains("image")) return;
+
+            if (event.detail.state == 'start'){
+               origleft = element.style.left ?  element.style.left :0;
+            }
+            this.addClass(element, 'moving');
+            newint = parseInt(origleft) + parseInt(event.detail.dx);
+            element.style.left = `${newint}px`;
+            console.log('newleft', element.style.left);
+            if (event.detail.state == 'end'){
+                this.completeGesture(element);
+                this.removeClass(element, 'moving');
+            }
         },
         completeGesture(elem){
-            if (!isTracking) return;
             if (player != undefined) return;
-
             var center = (elem.getBoundingClientRect().width/2) + elem.getBoundingClientRect().left;
-            var windowcenter = window.innerWidth /6;
-            var elementcenter = (windowcenter * 3) - (elem.getBoundingClientRect().width/2);
-            var direction = center < windowcenter ? -400: center > (windowcenter * 5) ? 1400: (elementcenter - elem.getBoundingClientRect().left);
-            finishpos =direction == -400? -1: direction == 1400 ? 1 : 0;
+            var windowcenter = window.innerWidth /10;
+            var elementcenter = (windowcenter * 5) - (elem.getBoundingClientRect().width/2);
+            console.log('currentleft ' + elem.getBoundingClientRect().left);
+            var direction = center < windowcenter ? -400: center > (windowcenter * 9) ? 1400: parseInt((elementcenter - elem.getBoundingClientRect().left));
+            finishpos = direction == -400? -1: direction == 1400 ? 1 : 0;
+            console.log('animatinssg to ' + direction);
             player = elem.animate([
                 {transform:'translateX(0px)'},
                 {transform:'translateX(' + direction + 'px)'}
             ], {
-                duration:400,
-                delay:0,
-                easing: 'ease-in-out'
+                duration: 400,
+                iterations: 1,
+                delay: 0,
             });
 
             player.onfinish = () => {
                 player = undefined;
                 var width = elem.getBoundingClientRect().width;
+                elem.style.display = 'none';
                 elem.style.left = finishpos < 0 ? '-400px' : finishpos > 0 ? '1400px': ((window.innerWidth/2) - (width/2)) + 'px';
-                if (finishpos == 0) this.removeClass(elem,'moving');
+                this.removeClass(elem,'moving');
                 if (finishpos != 0) {
-                    this.removeClass(elem,'selected');
                     this.sortImages();
-                    console.log('resetting the images', a);
                     for (var i = 0; i < a.length; i++)
                     {
-                        console.log(a[i].innerHTML);
-                        a[i].style.zIndex = a[i].style.zIndex + 1;
+                        a[i].style.zIndex = parseInt(a[i].style.zIndex) + 1;
                         a[i].style.left = ((window.innerWidth/2) - (width/2)) + 'px';
                     }
                     elem.style.zIndex = 0;
                 }
-            
-            };
+                elem.style.display = 'block';
+                
+                this._updateDetails();
+                };
         },
-        addClass(elem, name) {
-            if (!event.srcElement.classList.contains(name)){
-                event.srcElement.className += " " + name;
+         _updateDetails(){
+            var e = this._getTopMostImage();
+            if (e && e.attributes && e.attributes["alt"]){
+               this.$.details.innerHTML = "[" + (a.length - a.indexOf(e)) + "/" + a.length + "] " + e.attributes["alt"].value;
             }
-        },
-        removeClass(elem, name) {
-            elem.className = elem.className.replace(name, '');
-        }
-        
-
-    Polymer({
-      is:'slim-image-caroussel',
-      ready(){
-            a = Polymer.dom(this.root).querySelectorAll(".image");
-            
-      },
-      sortImages(){
-            Array.prototype.slice.call(a).sort(function (a, b) {
-                return a.style.zIndex < b.style.zIndex;
-            });
-      },
-     
+         },
+         _getTopMostImage(){
+              // get the highest zindex
+            var e = a[0];
+            for (var i = 1; i < a.length; i++)
+                if (a[i].style.zIndex > e.style.zIndex) e = a[i];
+            return e;
+         }
     })
     </script>
 </dom-module>

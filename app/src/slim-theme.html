@@ -143,7 +143,7 @@
             }
 
             .text-card {
-                width: 270px;
+                width: 100px;
                 height: 300px;
                 background:#fff;
                 color: #333;
@@ -152,7 +152,7 @@
             }
 
             .text-card:hover {
-                width: 270px;
+                width: 100px;
                 height: 300px;
                 background:#BFC218;
                 color: #fff;
@@ -225,7 +225,7 @@
       }
       
         paper-listbox {
-            --paper-listbox-background-color:var(--app-toolbar-background, white);
+            --paper-listbox-background-color:var(--app-toolbar-background-light, white);
             --paper-listbox-color:var(--app-primary-color, white);
         }
 
@@ -268,7 +268,11 @@
                             }
                     }
 
-            :root { --app-toolbar-background:#303030;}
+            :root { 
+                --app-toolbar-background:#303030;
+                --app-toolbar-background-light:#303030;
+            
+            }
             </style>
     </template>
 </dom-module>
