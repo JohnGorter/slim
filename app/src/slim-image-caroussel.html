@@ -1,16 +1,40 @@
 <dom-module id="slim-image-caroussel">
     <template>
         <style>
-            h1 { position:relative;top:500px;text-align:center;align-self:flex-end;width:100vw;height:30px;color:white;z-index:99;font-family:tahoma;font-size:12px;font-weight:normal;}
+            h1 { position:relative;top:500px;text-align:right;margin-right:20px;align-self:flex-end;width:100vw;height:30px;color:white;z-index:99;font-family:tahoma;font-size:12px;font-weight:normal;}
             #container { position:fixed ;display:flex;align-items:flex-start;justify-content:flex-start;flex-flow:column;width:100vw;height:90vh;background-color:#303030}
             .image { -webkit-transform: translate3d(0,0,0);position:absolute;width:100vw;height:80vh;}
             .image.moving {position:absolute;width:100vw;height:500px;opacity:1}
+            canvas { z-index: 101;}
         </style>
         <div id="container">
-            <template is="dom-repeat" items="{{images}}">
-                    <div class="image" alt$="{{item}}" style$="background:url('{{item}}') no-repeat center center;background-size: 100% 100%;height:480px;width:100vw;"></div>
+            
+              <template is="dom-if" if="{{userprofile.isAdmin}}">
+                <paper-toolbar style="width:100vw;top:500px;">
+                    <span slot="top" class="title"> </span>
+                    <paper-icon-button slot="top" icon="image:rotate-90-degrees-ccw" on-tap="_rotate"></paper-icon-button>
+                    <paper-icon-button slot="top" icon="delete" on-tap="_deleteConfirm"></paper-icon-button>
+                </paper-toolbar>
+            </template> 
+
+            <!-- <canvas id="canvas" width="400" height="300">hier</canvas> -->
+
+            <paper-dialog id="modal" modal>
+                <p>Bevesting het verwijderen van de foto. Weet u het zeker? </p>
+                <div class="buttons">
+                    <paper-button dialog-confirm autofocus on-tap="_delete">Ja, verwijder!</paper-button>
+                    <paper-button dialog-confirm autofocus>Annuleren</paper-button>
+                </div>
+            </paper-dialog>
+
+            <template is="dom-if" if="{{!_isDone(renderedItemCount)}}">
+                <img style="position:relative;height:50px;align-self:center;top:25%;" src="./images/loading.svg" />
             </template>
-            <h1 id="details">details</h1>
+            <template is="dom-repeat" items="{{images}}" rendered-item-count="{{renderedItemCount}}" initialCount="1">
+                    <div class="image" alt$="{{index}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
+            </template>
+         
+            <h1 id="details"></h1>
         </div>
     </script>
     </body>
@@ -23,25 +47,89 @@
     var a = [];
     var interval;
     var i = 0;
+    var ang = 0; //angle
 
     Polymer({
+        observers:['_getImages(renderedItemCount)'],
+        properties:{
+            selectedPhoto:{
+                type:Number, 
+                value:0
+            },
+            images:{
+                type:Array, 
+                notify:true 
+            }
+        },
         is:'slim-image-caroussel',
+//         _rotate(){
+//             ang += 90; 
+//             if (ang >= 360) ang = 0;
+
+//             var ctx = this.$.canvas.getContext('2d');
+//             var img = new Image();
+
+//             var fps = 1000 / 25; //number of frames per sec
+//             img.onload = function () { //on image load do the following stuff
+//                     var MAX_WIDTH = 800;
+//                     var MAX_HEIGHT = 600;
+//                     var width = img.width;
+//                     var height = img.height;
+
+// console.log('setting canvas to ', width, height);
+//                     if (width > height) {
+//                         if (width > MAX_WIDTH) {
+//                             height *= MAX_WIDTH / width;
+//                             width = MAX_WIDTH;
+//                         }
+//                     } else {
+//                         if (height > MAX_HEIGHT) {
+//                             width *= MAX_HEIGHT / height;
+//                             height = MAX_HEIGHT;
+//                         }
+//                     }
+//                 this.$.canvas.width = height*2;
+//                 this.$.canvas.height = width*2;
+//                 console.log('setting canvas to ', width, height);
+//                 ctx.save(); //saves the state of canvas
+//                 ctx.clearRect(0, 0, this.$.canvas.width, this.$.canvas.height); //clear the canvas
+//                 ctx.translate(200, 150); //let's translate
+//                 ctx.rotate(Math.PI / 180 * (ang)); //increment the angle and rotate the image 
+//                 ctx.drawImage(img, -img.height/2, -img.width/2, img.height, img.width); //draw the image ;)
+//                 ctx.restore(); //restore the state of canvas
+//             }.bind(this);
+//             img.src = this.selectedPhoto.photo;
+//         },
+        _deleteConfirm(){
+            this.$.modal.open();
+        },
+        _delete(){
+           this.fire('photo-delete', {photo:this.selectedPhoto});
+        },
         ready(){
           // let repeater finish...
           this.async(() => {
+            this.listen(this, 'track', '_track');
+          });
+        },
+        getImages(){
+            a = [];
             var i = 0;
             const slot = Polymer.dom(this.root).querySelectorAll(".image");
             slot.forEach(function(element) {
                 if (element.nodeType == 1) {
-                    element.style.zIndex = i++;
-                    element.style.left = '0px'; //((window.innerWidth/2) - (element.getBoundingClientRect().width/2)) + 'px';
                     a.push(element);
                 }
             }, this);
-            this._updateDetails();
-            this.listen(this, 'track', '_track');
-          });
+            this.selectedPhoto = this.images[this.images.length-1];
         },
+        _getImages(){
+            this.getImages();       
+            this._updateDetails();     
+        },
+    _isDone(){
+        return this.renderedItemCount != 0;
+    },
         sortImages(){
             Array.prototype.slice.call(a).sort(function (a, b) {
                 return a.style.zIndex > b.style.zIndex;
@@ -61,9 +149,8 @@
                  element = event.path[0];
             else
                 element = this._getTopMostImage();
-
             // only track images
-           // if (!element.className.contains("image")) return;
+            if (element.className.indexOf("image") < 0) return;
 
             if (event.detail.state == 'start'){
                origleft = element.style.left ?  element.style.left :0;
@@ -71,7 +158,6 @@
             this.addClass(element, 'moving');
             newint = parseInt(origleft) + parseInt(event.detail.dx);
             element.style.left = `${newint}px`;
-            console.log('newleft', element.style.left);
             if (event.detail.state == 'end'){
                 this.completeGesture(element);
                 this.removeClass(element, 'moving');
@@ -82,10 +168,8 @@
             var center = (elem.getBoundingClientRect().width/2) + elem.getBoundingClientRect().left;
             var windowcenter = window.innerWidth /10;
             var elementcenter = (windowcenter * 5) - (elem.getBoundingClientRect().width/2);
-            console.log('currentleft ' + elem.getBoundingClientRect().left);
             var direction = center < windowcenter ? -400: center > (windowcenter * 9) ? 1400: parseInt((elementcenter - elem.getBoundingClientRect().left));
             finishpos = direction == -400? -1: direction == 1400 ? 1 : 0;
-            console.log('animatinssg to ' + direction);
             player = elem.animate([
                 {transform:'translateX(0px)'},
                 {transform:'translateX(' + direction + 'px)'}
@@ -108,7 +192,9 @@
                         a[i].style.zIndex = parseInt(a[i].style.zIndex) + 1;
                         a[i].style.left = ((window.innerWidth/2) - (width/2)) + 'px';
                     }
-                    elem.style.zIndex = 0;
+                    elem.style.zIndex = -1;
+                    var nextelement = this._getTopMostImage();
+                    this.selectedPhoto = nextelement.__templatizeInstance.item;
                 }
                 elem.style.display = 'block';
                 
@@ -118,7 +204,7 @@
          _updateDetails(){
             var e = this._getTopMostImage();
             if (e && e.attributes && e.attributes["alt"]){
-               this.$.details.innerHTML = "[" + (a.length - a.indexOf(e)) + "/" + a.length + "] " + e.attributes["alt"].value;
+               this.$.details.innerHTML = "Foto " + (a.length - a.indexOf(e)) + " van " + a.length + "";// + e.attributes["alt"].value;
             }
          },
          _getTopMostImage(){

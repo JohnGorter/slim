@@ -15,7 +15,7 @@
                 <h1>Welkom bij S-L-I-M</h1>
                 <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
                     otam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                
+                   
             </div>
             <section>
                  <div class="screen">
@@ -78,22 +78,65 @@
             <section></section>
             <section>
                 <div class="fullscreen">
-                <slim-image-caroussel images="{{portfolio}}"></slim-image-caroussel>
+                <slim-image-caroussel id="caroussel" images="{{portfolio}}"  on-photo-delete="_delete" userprofile="{{userprofile}}">
+                    <img style="height:50px" src="./images/loading.svg" />
+                </slim-image-caroussel>
                 </div>
+            </section>
+             <section>
+                <slim-photo-page on-photo-taken="_addPhoto"></slim-photo-page>
             </section>
             
         </iron-pages>
+
+         
+        <firebase-query
+            app-name="slimapp"
+            path="/photos"
+            data="{{portfolio}}"
+            id="fbquery">
+        </firebase-query>
+
+        <firebase-document
+            id="fbdoc"
+            path="/photos/{{selectedPhotoId}}"
+            data="{{selectedPhoto}}"
+            app-name="slimapp">
+        </firebase-document>
+    
+        
     </template>
     <script>
     Polymer({
       is:'slim-mobile-pages',
       properties:{
+          selectedPhotoId:{
+              type:String, 
+              value:''
+          },
+          selectedPhoto:{
+              type:Object,
+              value:{}
+          },
+          selectedpage:{
+              type:Number,
+              value:0,
+              notify:true
+          },
           portfolio:{
               type:Array,
-             value:['./images/1.jpg','./images/2.jpg','./images/3.jpg','./images/4.jpg']
+              value:[],
           }
       },
-
+      _delete(){
+          this.selectedPhotoId = event.detail.photo.$key;
+          this.selectedPhoto = null;
+          this.$.fbdoc.saveValue('/photos', this.selectedPhotoId);
+      },
+      _addPhoto(){
+          this.$.fbquery.ref.push({photo:event.detail.photo});
+          this.selectedpage = 3;
+      },
       _logPage(){
           console.log('page switch');
       }

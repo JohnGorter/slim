@@ -1,15 +1,22 @@
 <link rel="import" href="../bower_components/polymer/polymer.html" />
 <link rel="import" href="../bower_components/app-layout/app-layout.html" />
+<link rel="import" href="../bower_components/paper-button/paper-button.html" />
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html" />
 <link rel="import" href="../bower_components/paper-item/paper-item.html" />
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html" />
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html" />
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html" />
+<link rel="import" href="../bower_components/iron-icons/image-icons.html" />
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html" />
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html" />
+<link rel="import" href="../bower_components/iron-list/iron-list.html" />
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html" />
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html" />
 <link rel="import" href="./slim-footer.html" />
 <link rel="import" href="./slim-overlay.html" />
 <link rel="import" href="./slim-theme.html" />
 <link rel="import" href="./slim-category-data.html" />
+<link rel="import" href="./slim-photo-page.html" />
 <link rel="import" href="./slim-image-caroussel.html" />
 
 <dom-module id="slim-app">
@@ -17,7 +24,7 @@
         <style include="slim-theme">
             .contact { align-self:center;display:flex;align-items:center;justify-content:center;background-color:#e0d405;border-radius:50%;width:100px;height:100px;}
             .contact-inner { display:flex;align-items:center;justify-content:center;background-color:#303030;border-radius:50%;width:90%;height:90%;}
-            .main-screen { display:flex;align-items:flex-start;background:url('../images/bg.jpg') center center;justify-content:center;bottom:0px;height:500px;width:100vw;margin-top:50px;}
+            .main-screen { display:flex;align-items:flex-start;background:url('../images/bg.jpg') center center;justify-content:center;bottom:0px;height:600px;width:100vw;margin-top:50px;}
             .footer ul { margin-top:60px;font-size:14px;margin-left:0px;}
             li { list-style: none;margin:15px;list-style-position:unset}
         </style>
@@ -25,8 +32,14 @@
         <app-toolbar sticky$="[[_shouldStick(smallscreen)]]" class="toolbar" >
             <paper-icon-button icon="menu" class="menu-btn" on-tap="toggle"></paper-icon-button>
             <div main-title style="display:flex;align-items:center;flex-direction:column;">
-                <img class="navbar-logo" src="../images/logo.svg"/>
-            </div>
+                <img class="navbar-logo" src="../images/logo.svg"/>  
+            </div> 
+              <template is="dom-if" if="{{user.email}}">
+            <paper-icon-button icon="lock-outline" class="menu-btn" on-tap="signout"></paper-icon-button>
+              </template>
+                <template is="dom-if" if="{{!user.email}}">
+            <paper-icon-button icon="account-circle" class="menu-btn" on-tap="signin"></paper-icon-button>
+              </template>
         </app-toolbar>
         <div sticky$="[[!_shouldStick(smallscreen)]]" style="display:flex;align-items:center;flex-direction:column;background-color:#303030;">
                 <div class="navbar-menu">
@@ -48,11 +61,15 @@
             </div>
                 </div>
         </app-toolbar>
+        
         <paper-listbox selected="{{selectedpage}}">
             <paper-item>Home</paper-item>
             <paper-item>Diensten</paper-item>
             <paper-item>Tarieven</paper-item>
             <paper-item>Portfolio</paper-item>
+            <template is="dom-if" if="{{userprofile.isAdmin}}">
+                 <paper-item>Maak foto</paper-item>
+            </template>
         </paper-listbox>
         <div class="footer">
             <ul>
@@ -62,10 +79,12 @@
             </ul>
         </div>
     </app-drawer>
+
+ 
     
     <template is="dom-if" if="{{smallscreen}}"><br/>
         <div class="main-screen">
-            <slim-mobile-pages selectedpage="{{selectedpage}}"><img style="height:50px" src="./images/loading.svg" /></slim-mobile-pages>
+            <slim-mobile-pages selectedpage="{{selectedpage}}" userprofile="{{userprofile}}"><img style="height:50px" src="./images/loading.svg"/></slim-mobile-pages>
         </div>
         </template>
 
@@ -74,14 +93,21 @@
     </template>
 
     <slim-overlay src="/images/header-splatters.svg"></slim-overlay>
-         
-
-
-       
 
         <!-- non visual components -->
         <slim-category-data categories="{{categories}}" on-categories-changed="log">data </slim-category-data>
         <iron-media-query query="max-width: 767px" query-matches="{{smallscreen}}"></iron-media-query>
+        <firebase-app
+            name="slimapp"
+            api-key="AIzaSyAIrU1xKfGnsX2Pa40idv-9uGLnomiMyp4"
+            auth-domain="rep-app-dcb15.firebaseapp.com"
+            database-url="https://rep-app-dcb15.firebaseio.com"
+            project-id="rep-app-dcb15">
+        </firebase-app>
+        <firebase-auth id="login" provider="google" app-name="slimapp" user="{{user}}"> </fireabse-auth>
+        <firebase-document app-name="slimapp" data="{{userprofile}}" path="/users/{{user.uid}}"></firebase-document>
+
+       
 
     </template>
     <script>
@@ -93,6 +119,23 @@
                 selectedpage:{
                     type:Number,
                     value:0
+                },
+                user:{
+                    type:Object,
+                    value:{}
+                },
+                userprofile:{
+                    type:Object, 
+                    value: { isAdmin:false}
+                }
+            },
+            signin(){
+                //this.set('userprofile.isAdmin',true);
+                this.$.login.signInWithPopup();
+            },
+            signout(){
+                if (this.$.login.signedIn) {
+                    this.$.login.signOut();
                 }
             },
             toggle(){ this.$.drawer.toggle()},
