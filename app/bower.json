@@ -4,12 +4,19 @@
     "John Gorter"
   ],
   "dependencies": {
-    "polymer": "polymer/polymer#^2.0.1",
+    "polymer": "^2.0.2",
     "paper-listbox": "polymerelements/paper-listbox#^2.0.0",
     "app-layout": "polymerelements/app-layout#^2.0.1",
     "iron-icons": "polymerelements/iron-icons#^2.0.1",
     "paper-icon-button": "polymerelements/paper-icon-button#^2.0.0",
-    "paper-item": "polymerelements/paper-item#^2.0.0"
+    "paper-item": "polymerelements/paper-item#^2.0.0",
+    "iron-pages": "polymerelements/iron-pages#^2.0.0",
+    "paper-button": "polymerelements/paper-button#^2.0.0",
+    "paper-dialog": "polymerelements/paper-dialog#^2.0.0",
+    "iron-list": "polymerelements/iron-list#^2.0.6",
+    "polymerfire": "firebase/polymerfire#^2.1.0",
+    "web-animations-js": "^2.3.1",
+    "paper-toolbar": "polymerelements/paper-toolbar#^2.0.0"
   },
   "devDependencies": {
     "web-component-tester": "^6.0.0"

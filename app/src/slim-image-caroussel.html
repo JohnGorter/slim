@@ -19,7 +19,7 @@
 
             <!-- <canvas id="canvas" width="400" height="300">hier</canvas> -->
 
-            <paper-dialog id="modal" modal>
+            <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
                 <p>Bevesting het verwijderen van de foto. Weet u het zeker? </p>
                 <div class="buttons">
                     <paper-button dialog-confirm autofocus on-tap="_delete">Ja, verwijder!</paper-button>
@@ -130,6 +130,11 @@
     _isDone(){
         return this.renderedItemCount != 0;
     },
+        patchOverlay(e) {
+            if (e.target.withBackdrop) {
+                e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+            }
+        },
         sortImages(){
             Array.prototype.slice.call(a).sort(function (a, b) {
                 return a.style.zIndex > b.style.zIndex;
