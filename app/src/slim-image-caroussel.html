@@ -13,11 +13,12 @@
                 <paper-toolbar style="width:100vw;top:500px;">
                     <span slot="top" class="title"> </span>
                     <paper-icon-button slot="top" icon="image:rotate-90-degrees-ccw" on-tap="_rotate"></paper-icon-button>
+                    <paper-icon-button slot="top" icon="image:grayscake" on-tap="_grayscale"></paper-icon-button>
                     <paper-icon-button slot="top" icon="delete" on-tap="_deleteConfirm"></paper-icon-button>
                 </paper-toolbar>
             </template> 
 
-            <!-- <canvas id="canvas" width="400" height="300">hier</canvas> -->
+             <canvas id="canvas" hidden width="0" height="0" style="border:2px solid red;z-index:110;">hier</canvas> 
 
             <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
                 <p>Bevesting het verwijderen van de foto. Weet u het zeker? </p>
@@ -26,6 +27,11 @@
                     <paper-button dialog-confirm autofocus>Annuleren</paper-button>
                 </div>
             </paper-dialog>
+
+              <firebase-document app-name="slimapp" data="{{fbPhoto}}" path="/photos/{{selectedPhoto.$key}}"></firebase-document>
+
+
+            </firebase-document>
 
             <template is="dom-if" if="{{!_isDone(renderedItemCount)}}">
                 <img style="position:relative;height:50px;align-self:center;top:25%;" src="./images/loading.svg" />
@@ -47,7 +53,7 @@
     var a = [];
     var interval;
     var i = 0;
-    var ang = 0; //angle
+    var ang = 90; //angle
 
     Polymer({
         observers:['_getImages(renderedItemCount)'],
@@ -62,44 +68,73 @@
             }
         },
         is:'slim-image-caroussel',
-//         _rotate(){
-//             ang += 90; 
-//             if (ang >= 360) ang = 0;
+        _grayscale()
+        {
+            var myCanvasContext = this.$.canvas.getContext("2d");
+            var img = new Image();
+            img.onload = () => {
+                var imgWidth=img.width;
+                var imgHeight=img.height;
+                // You'll get some string error if you fail to specify the dimensions
+                this.$.canvas.width= imgWidth;
+                this.$.canvas.height=imgHeight;
+                //  alert(imgWidth);
+                myCanvasContext.drawImage(img,0,0);
 
-//             var ctx = this.$.canvas.getContext('2d');
-//             var img = new Image();
+                // This function cannot be called if the image is not rom the same domain.
+                // You'll get security error if you do.
+                var imageData=myCanvasContext.getImageData(0,0, imgWidth, imgHeight);
 
-//             var fps = 1000 / 25; //number of frames per sec
-//             img.onload = function () { //on image load do the following stuff
-//                     var MAX_WIDTH = 800;
-//                     var MAX_HEIGHT = 600;
-//                     var width = img.width;
-//                     var height = img.height;
+                // This loop gets every pixels on the image and
+               for (var i = 0; i < imageData.data.length; i+=4) {
+                    var redPx = imageData.data[i];
+                    var greenPx = imageData.data[i+1];
+                    var bluePx = imageData.data[i+2];
+                    var alphaPx = imageData.data[i+3];
 
-// console.log('setting canvas to ', width, height);
-//                     if (width > height) {
-//                         if (width > MAX_WIDTH) {
-//                             height *= MAX_WIDTH / width;
-//                             width = MAX_WIDTH;
-//                         }
-//                     } else {
-//                         if (height > MAX_HEIGHT) {
-//                             width *= MAX_HEIGHT / height;
-//                             height = MAX_HEIGHT;
-//                         }
-//                     }
-//                 this.$.canvas.width = height*2;
-//                 this.$.canvas.height = width*2;
-//                 console.log('setting canvas to ', width, height);
-//                 ctx.save(); //saves the state of canvas
-//                 ctx.clearRect(0, 0, this.$.canvas.width, this.$.canvas.height); //clear the canvas
-//                 ctx.translate(200, 150); //let's translate
-//                 ctx.rotate(Math.PI / 180 * (ang)); //increment the angle and rotate the image 
-//                 ctx.drawImage(img, -img.height/2, -img.width/2, img.height, img.width); //draw the image ;)
-//                 ctx.restore(); //restore the state of canvas
-//             }.bind(this);
-//             img.src = this.selectedPhoto.photo;
-//         },
+                    var greyScale = redPx * .3 + greenPx * .59 + bluePx * .11;
+
+                    imageData.data[i] = greyScale;
+                    imageData.data[i+1] = greyScale;
+                    imageData.data[i+2] = greyScale;
+                    imageData.data[i+3] = greyScale;
+                }
+
+                myCanvasContext.putImageData(imageData, 0,0);
+                 this._save();
+            }
+            img.src = this.selectedPhoto.photo;
+        },
+
+        _rotate(){
+            // ang = 90; 
+            // if (ang >= 360) ang = 0;
+
+            var ctx = this.$.canvas.getContext('2d');
+            var img = new Image();
+
+            var fps = 1000 / 25; //number of frames per sec
+            img.onload = function () { //on image load do the following stuff
+                var width = this.$.canvas.width == 0 ? img.width : this.$.canvas.width;
+                var height = this.$.canvas.height == 0 ? img.height: this.$.canvas.height;
+                console.log('img is ', width, height);
+                this.$.canvas.width = height;
+                this.$.canvas.height = width;
+                console.log('setting canvas to ', this.$.canvas.width, this.$.canvas.height);
+                ctx.save(); //saves the state of canvas
+                ctx.clearRect(0, 0, this.$.canvas.width, this.$.canvas.height); //clear the canvas
+                ctx.translate(this.$.canvas.width/2, this.$.canvas.height/2,); //let's translate
+                ctx.rotate(Math.PI / 180 * (ang)); //increment the angle and rotate the image 
+                ctx.drawImage(img,-img.width/2,-img.height/2, img.width, img.height);
+                ctx.restore(); //restore the state of canvas
+                this._save();
+            }.bind(this);
+            img.src = this.selectedPhoto.photo;
+        },
+        _save(){
+            
+            this.set('fbPhoto.photo', this.$.canvas.toDataURL());
+        },
         _deleteConfirm(){
             this.$.modal.open();
         },
