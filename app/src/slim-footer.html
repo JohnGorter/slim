@@ -1,50 +1,13 @@
 <dom-module id="slim-footer">
     <template>
-        <style>
-        /* Footer */
+          
+        <style include="slate-font-awesome"></style>
+        <style include="slim-theme">
+            ul { padding:0px;}
+        </style>
 
-  #footer {
-    height: 150px;
-    background-color: #232323;
-    margin: 0;
-    padding: 67px;
-    display: flex;
-    }
-
-    #footer a {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    #footer h1 {
-        font-size: 20px;
-        font-weight: 600;
-    }
-
-    #footer .social ul li { 
-        display: inline; 
-        margin: 0px 20px 0px 20px;    
-    }
-
-    #footer ul {
-        font-size: 16px;
-        font-weight: 100;
-        list-style-type: none;
-    }
-
-    .md-2 {
-        width: 25%;
-    }
-
-    .md-4 {
-        width: 50%;
-    }
-    .footer-menu {
-        line-height: 2.5;
-    }
-    </style>
-
-    <section id= "footer">
+          
+<section id="footer">
     <div class="md-2">
         <h1>Neem contact op</h1>
             <ul>
@@ -67,8 +30,7 @@
                 <li><a href="#">Diensten</a></li>
             </ul>
     </div>
-    </section>
-
+</section>
     </template>
     <script>
         Polymer({

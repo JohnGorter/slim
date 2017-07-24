@@ -13,6 +13,7 @@
 <link rel="import" href="../bower_components/iron-list/iron-list.html" />
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html" />
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html" />
+<link rel="import" href="../bower_components/slate-font-awesome/slate-font-awesome.html">
 <link rel="import" href="./slim-footer.html" />
 <link rel="import" href="./slim-overlay.html" />
 <link rel="import" href="./slim-theme.html" />
@@ -93,6 +94,7 @@
     <template is="dom-if" if="{{smallscreen}}"><br/>
         <div class="main-screen">
             <slim-mobile-pages selectedpage="{{selectedpage}}" userprofile="{{userprofile}}"><img style="height:50px" src="./images/loading.svg"/></slim-mobile-pages>
+            <slim-overlay src="/images/header-splatters.svg"></slim-overlay>
         </div>
         </template>
 
@@ -100,7 +102,7 @@
         <slim-desktop-pages>loading...</slim-desktop-pages>
     </template>
 
-    <slim-overlay src="/images/header-splatters.svg"></slim-overlay>
+    
 
         <!-- non visual components -->
         <slim-category-data categories="{{categories}}" on-categories-changed="log">data </slim-category-data>

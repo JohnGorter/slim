@@ -17,7 +17,8 @@
     "polymerfire": "firebase/polymerfire#^2.1.0",
     "web-animations-js": "^2.3.1",
     "paper-toolbar": "polymerelements/paper-toolbar#^2.0.0",
-    "paper-card": "polymerelements/paper-card#^2.0.0"
+    "paper-card": "polymerelements/paper-card#^2.0.0",
+    "slate-font-awesome": "JeffLeFoll/slate-font-awesome#^4.7.3"
   },
   "devDependencies": {
     "web-component-tester": "^6.0.0"
