@@ -4,142 +4,135 @@
     <template>
         <style>
             div.fullscreen { left:0px;top:60px;width:100vw;height:400px;background-color: #303030;}
-            div.screen { align-self:center;border-radius:7px;margin-top:60px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;width:70vw;min-width:300px;min-height:40vh;background-color: #303030;}
+            div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;height:100vh;width:70vw;min-width:300px;min-height:40vh;}
             div.diensten-container { display:flex;font-size:12px;flex-wrap:wrap;width:70vw;justify-content: space-between;align-content: center;}
+            div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
+            div.content-block-2{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
             .title { font-weight:bold;font-family: Tahoma}
             .screen img { width:75px;height:75px;border-radius:75px;}
             .screen .text-card { margin:10px;display:flex;flex-direction: column;justify-content:center;text-align:center;align-items: center}
+            /* Cards */
+            paper-card{--paper-card-header-color: var(--font-color-primary); max-width:90vw; z-index:-1; margin-bottom: 20px;};
+            .card-content{color: var(--font-color-secondary)};
+
+            /* Buttons */
+            a {text-decoration: none;}
+            paper-button {color: var(--font-color-primary); margin: 10px;}
+            paper-button.btn-inverse{color: var(--font-color-secondary); margin: 10px;}
+            paper-button.btn-primary {background-color: var(--positive-highlight);color: white; text-decoration:none;}
+            paper-button.btn-secondary{background-color: var(--positive-highlight);color: white;}   
         </style>
-        <iron-pages selected="{{selectedpage}}">
-            <div class="screen">
-                <h1>Welkom bij S-L-I-M</h1>
-                <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
-                    otam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                   
-            </div>
-            <section>
-                 <div class="screen">
-                     <h1>Wij leveren de volgende diensten</h1>
-                     <div class="diensten-container center">
-                    
-                    
-                    <div class="text-card">
-                        <div class="text-card-top">
-                            <img src="../images/dienst1.jpg"/>
-                         </div>
-                        <div class="text-card-bottom">
-                            <h3> Dienst </h3>
-                            <p> Beschrijving van Dienst komt hier 
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                 Beschrijving van Dienst komt hier </p>
-                        </div>
+<iron-pages selected="{{selectedpage}}">
+    <!-- Begin home -->
+    <div>
+        <div class="screen-header">
+            <h1>" Uw specialist in styling, restyling en schilderwerk in Gelderland en omstreken "</h1>
+        </div>
+        <div class="content-block-1">
+            <h2> Welkom bij S-L-I-M </h2>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, otam rem aperiam,
+                eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae eaque ipsa quae ab illo inventore
+                veritatis et quasi architecto beatae vitaeeaque ipsa quae ab illo inventore veritatis et quasi architecto
+                beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+            <a href="#">
+                <paper-button class="btn-primary">Neem contact op</paper-button>
+            </a>
+            <a href="#">
+                <paper-button>meer informatie</paper-button>
+            </a>
+        </div>
+        <div class="content-block-2">
+            <h2> Onze diensten </h2>
+        </div>
+    </div>
+    <!-- Einde Home -->
+    <!-- Begin Diensten -->
+    <section>
+        <div class="screen-header">
+            <h1>U bent vast benieuwd wat we voor u kunnen betekenen</h1>
+        </div>
+        <div class="content-block-1">
+            <template is="dom-repeat" items="[[items]]">
+                <paper-card heading="[[item.name]]" image="[[item.picture]]">
+                    <div class="card-content">
+                        [[item.description]]
                     </div>
-                    <div class="text-card">
-                         <div class="text-card-top">
-                            <img src="../images/dienst1.jpg"/>
-                        </div>
-                        <div class="text-card-bottom">
-                            <h3> Dienst </h3>
-                            <p> Beschrijving van Dienst komt hier </p>
-                        </div>
-                    </div> 
-                    <div class="text-card">
-                        <div class="text-card-top">
-                            <img src="../images/dienst1.jpg"/>
-                         </div>
-                        <div class="text-card-bottom">
-                            <h3> Dienst </h3>
-                            <p> Beschrijving van Dienst komt hier </p>
-                        </div>
+                    <div class="card-actions">
+                        <paper-button class="btn-secondary">Bel mij terug</paper-button>
+                        <paper-button class="btn-inverse">Meer informatie</paper-button>
                     </div>
-                    <div class="text-card">
-                         <div class="text-card-top">
-                            <img src="../images/dienst1.jpg"/>
-                        </div>
-                        <div class="text-card-bottom">
-                            <h3> Dienst </h3>
-                            <p> Beschrijving van Dienst komt hier 
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                Beschrijving van Dienst komt hier
-                                 Beschrijving van Dienst komt hier </p>
-                        </div>
-                    </div>
-                    
-                </div>
-                </div>
-            </section>
-            <section></section>
-            <section>
-                <div class="fullscreen">
-                <slim-image-caroussel id="caroussel" images="{{portfolio}}"  on-photo-delete="_delete" userprofile="{{userprofile}}">
-                    <img style="height:50px" src="./images/loading.svg" />
-                </slim-image-caroussel>
-                </div>
-            </section>
-             <section>
-                <slim-photo-page on-photo-taken="_addPhoto"></slim-photo-page>
-            </section>
-            
-        </iron-pages>
+                </paper-card>
+            </template>
+        </div>
+    </section>
+    <!-- Einde Diensten -->
 
-         
-        <firebase-query
-            app-name="slimapp"
-            path="/photos"
-            data="{{portfolio}}"
-            id="fbquery">
-        </firebase-query>
+    <section></section>
+    <section>
+        <div class="fullscreen">
+            <slim-image-caroussel id="caroussel" images="{{portfolio}}" on-photo-delete="_delete" userprofile="{{userprofile}}">
+                <img style="height:50px" src="./images/loading.svg" />
+</slim-image-caroussel>
+</div>
+</section>
+<section>
+    <slim-photo-page on-photo-taken="_addPhoto"></slim-photo-page>
+</section>
 
-        <firebase-document
-            id="fbdoc"
-            path="/photos/{{selectedPhotoId}}"
-            data="{{selectedPhoto}}"
-            app-name="slimapp">
-        </firebase-document>
-    
-        
-    </template>
-    <script>
-    Polymer({
-      is:'slim-mobile-pages',
-      properties:{
-          selectedPhotoId:{
-              type:String, 
-              value:''
-          },
-          selectedPhoto:{
-              type:Object,
-              value:{}
-          },
-          selectedpage:{
-              type:Number,
-              value:0,
-              notify:true
-          },
-          portfolio:{
-              type:Array,
-              value:[],
-          }
-      },
-      _delete(){
-          this.selectedPhotoId = event.detail.photo.$key;
-          this.selectedPhoto = null;
-          this.$.fbdoc.saveValue('/photos', this.selectedPhotoId);
-      },
-      _addPhoto(){
-          this.$.fbquery.ref.push({photo:event.detail.photo});
-          this.selectedpage = 3;
-      },
-      _logPage(){
-          console.log('page switch');
-      }
-    })
+</iron-pages>
+
+
+<firebase-query app-name="slimapp" path="/photos" data="{{portfolio}}" id="fbquery">
+</firebase-query>
+
+<firebase-document id="fbdoc" path="/photos/{{selectedPhotoId}}" data="{{selectedPhoto}}" app-name="slimapp">
+</firebase-document>
+
+
+</template>
+<script>
+        Polymer({
+            is: 'slim-mobile-pages',
+            properties: {
+                selectedPhotoId: {
+                    type: String,
+                    value: ''
+                },
+                selectedPhoto: {
+                    type: Object,
+                    value: {}
+                },
+                selectedpage: {
+                    type: Number,
+                    value: 0,
+                    notify: true
+                },
+                portfolio: {
+                    type: Array,
+                    value: [],
+                },
+                items: {
+                    type: Array,
+                    value: [
+                        { name: 'Styling', description: 'Geef uw interieur een personal touch. Straal uit wie u bent! Van muurkleur tot meubelkeuze.', picture: '../images/dienst1.jpg' },
+                        { name: 'Restyling', description: 'Met betaalbare en/of bestaande middelen uw leefomgeving een nieuwe persoonlijkheid geven.', picture: '../images/dienst1.jpg' },
+                        { name: 'Schilderwerk', description: 'Zowel binnen- als buitenshuis mag goed schilderwerk gezien worden. En opvallen is niet erg!', picture: '../images/dienst1.jpg' },
+                        { name: 'Interieuradvies', description: 'Spelen met licht? Bar of eethoek? Loungebank of loveseat? Vraag SLIM om advies!', picture: '../images/dienst1.jpg' }
+                    ]
+                }
+            },
+            _delete() {
+                this.selectedPhotoId = event.detail.photo.$key;
+                this.selectedPhoto = null;
+                this.$.fbdoc.saveValue('/photos', this.selectedPhotoId);
+            },
+            _addPhoto() {
+                this.$.fbquery.ref.push({ photo: event.detail.photo });
+                this.selectedpage = 3;
+            },
+            _logPage() {
+                console.log('page switch');
+            }
+        })
     </script>
 </dom-module>
