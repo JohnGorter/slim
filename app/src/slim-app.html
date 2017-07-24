@@ -52,7 +52,7 @@
             <div class="navbar-menu">
                     <ul>
                         <template is="dom-repeat" items="{{categories}}">
-                            <li><a href="#">{{item}}</a></li>
+                            <li on-tap="navigateTo">{{item}}</li>
                         </template>
                     </ul>
                  </div>
@@ -99,7 +99,7 @@
         </template>
 
     <template is="dom-if" if="{{!smallscreen}}"><br/><br/><br/><br/>
-        <slim-desktop-pages>loading...</slim-desktop-pages>
+        <slim-desktop-pages id="desktopPages">loading...</slim-desktop-pages>
     </template>
 
     
@@ -147,6 +147,9 @@
                 if (this.$.login.signedIn) {
                     this.$.login.signOut();
                 }
+            },
+            navigateTo(){
+                this.$$("#desktopPages").scrollTo(event.model.item.toLowerCase());
             },
             toggle(){ this.$.drawer.toggle()},
             _pageChanged(){
