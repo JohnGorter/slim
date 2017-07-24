@@ -42,16 +42,21 @@
               </template>
         </app-toolbar>
         <div sticky$="[[!_shouldStick(smallscreen)]]" style="display:flex;align-items:center;flex-direction:column;background-color:#303030;">
-                <div class="navbar-menu">
+                <section id="navbar">
+        <div class="navbar-logo"><img class="full-height" src="../images/logo.svg">
+        </div>
+            <div class="navbar-menu">
                     <ul>
                         <template is="dom-repeat" items="{{categories}}">
                             <li><a href="#">{{item}}</a></li>
                         </template>
                     </ul>
                  </div>
+    </section>
+
         </div>
     </app-header>
-    <app-drawer id="drawer" swipe-open style="z-index:60;">
+    <app-drawer id="drawer" swipe-open$="[[smallscreen]]" style="z-index:60;">
          <app-toolbar style="height:180px;">
              <div style="width:100vw;display:flex;align-items:center;justify-content:center;">
             <div main-title class="contact">

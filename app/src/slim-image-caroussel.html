@@ -12,8 +12,9 @@
               <template is="dom-if" if="{{userprofile.isAdmin}}">
                 <paper-toolbar style="width:100vw;top:500px;">
                     <span slot="top" class="title"> </span>
+                    <paper-icon-button slot="top" icon="undo" on-tap="_undo"></paper-icon-button>
                     <paper-icon-button slot="top" icon="image:rotate-90-degrees-ccw" on-tap="_rotate"></paper-icon-button>
-                    <paper-icon-button slot="top" icon="image:grayscake" on-tap="_grayscale"></paper-icon-button>
+                    <paper-icon-button slot="top" icon="invert-colors" on-tap="_grayscale"></paper-icon-button>
                     <paper-icon-button slot="top" icon="delete" on-tap="_deleteConfirm"></paper-icon-button>
                 </paper-toolbar>
             </template> 
@@ -97,11 +98,11 @@
                     imageData.data[i] = greyScale;
                     imageData.data[i+1] = greyScale;
                     imageData.data[i+2] = greyScale;
-                    imageData.data[i+3] = greyScale;
+                    imageData.data[i+3] = alphaPx;
                 }
 
                 myCanvasContext.putImageData(imageData, 0,0);
-                 this._save();
+                this._save();
             }
             img.src = this.selectedPhoto.photo;
         },
@@ -131,8 +132,11 @@
             }.bind(this);
             img.src = this.selectedPhoto.photo;
         },
+        _undo(){
+            this.set('fbPhoto.photo', this.fbPhoto.previous);
+        },
         _save(){
-            
+            this.set('fbPhoto.previous', this.fbPhoto.photo); //remember the previous photo
             this.set('fbPhoto.photo', this.$.canvas.toDataURL());
         },
         _deleteConfirm(){
