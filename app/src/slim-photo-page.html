@@ -16,6 +16,11 @@
             <br/>
             <input hidden="true" type="file" id="btnpic" accept="image/*">
             <canvas id="canvas" width="0" height="0" style="border:1px solid white;border-radius:5px;display:none;"></canvas>
+            
+            <div hidden$="{{!data}}">
+                <paper-input label="titel" value="{{title}}"></paper-input>
+            </div>
+
             <br/><br/><br/><br/>
             <template is="dom-if" if="{{!_hasImage(data)}}">
                 <div>Maak een foto door bovenin op het camera icoon <br/>
@@ -85,7 +90,7 @@
           this.$.btnpic.click();
       },
       _save(){
-          this.fire('photo-taken', { photo: this.data});
+          this.fire('photo-taken', { photo: this.data, title:this.title});
           this.data = "";
           this.$.canvas.style.display='none';
       },

@@ -1,7 +1,8 @@
 <dom-module id="slim-image-caroussel">
     <template>
         <style>
-            h1 { position:relative;top:500px;text-align:right;margin-right:20px;align-self:flex-end;width:100vw;height:30px;color:white;z-index:99;font-family:tahoma;font-size:12px;font-weight:normal;}
+            h1.title { position:relative;top:0px;text-align:left;margin-left:20px;align-self:flex-start;width:100vw;height:30px;color:white;z-index:99;font-family:tahoma;font-size:20px;font-weight:normal;text-shadow: 2px 2px black;font-variant-caps: small-caps;}
+            h1.details { position:relative;top:500px;text-align:right;margin-right:20px;align-self:flex-end;width:100vw;height:30px;color:white;z-index:99;font-family:tahoma;font-size:12px;font-weight:normal;}
             #container { position:fixed ;display:flex;align-items:flex-start;justify-content:flex-start;flex-flow:column;width:100vw;height:90vh;background-color:#303030}
             .image { -webkit-transform: translate3d(0,0,0);position:absolute;width:100vw;height:80vh;}
             .image.moving {position:absolute;width:100vw;height:500px;opacity:1}
@@ -37,11 +38,13 @@
             <template is="dom-if" if="{{!_isDone(renderedItemCount)}}">
                 <img style="position:relative;height:50px;align-self:center;top:25%;" src="./images/loading.svg" />
             </template>
+
             <template is="dom-repeat" items="{{images}}" rendered-item-count="{{renderedItemCount}}" initialCount="1">
-                    <div class="image" alt$="{{index}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
+                    <div class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
             </template>
          
-            <h1 id="details"></h1>
+            <h1 class="title" id="title"></h1>
+            <h1 class="details" id="details"></h1>
         </div>
     </script>
     </body>
@@ -248,8 +251,11 @@
          _updateDetails(){
             var e = this._getTopMostImage();
             if (e && e.attributes && e.attributes["alt"]){
-               this.$.details.innerHTML = "Foto " + (a.length - a.indexOf(e)) + " van " + a.length + "";// + e.attributes["alt"].value;
+               this.$.title.innerHTML = e.attributes["alt"].value;
+            } else {
+                this.$.title.innerHTML = "";
             }
+            this.$.details.innerHTML = "Foto " + (a.length - a.indexOf(e)) + " van " + a.length + "";// + e.attributes["alt"].value;
          },
          _getTopMostImage(){
               // get the highest zindex

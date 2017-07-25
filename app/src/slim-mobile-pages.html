@@ -125,7 +125,7 @@
                 this.$.fbdoc.saveValue('/photos', this.selectedPhotoId);
             },
             _addPhoto() {
-                this.$.fbquery.ref.push({ photo: event.detail.photo });
+                this.$.fbquery.ref.push({ photo: event.detail.photo, title: event.detail.title });
                 this.selectedpage = 3;
             },
             _logPage() {
