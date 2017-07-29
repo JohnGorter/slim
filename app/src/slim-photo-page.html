@@ -4,14 +4,10 @@
         img  {
     fill: white;
 }
-                 div.screen {align-self:center;border-radius:7px;margin-top:60px;padding:20px;display:flex;justify-content: flex-start;align-items:center;flex-flow:column;width:70vw;min-width:400px;min-height:40vh;background-color: #303030;}
+                 div.screen {align-self:center;border-radius:7px;margin-top:60px;padding:0px;display:flex;justify-content: flex-start;align-items:center;flex-flow:column;width:80vw;min-width:400px;min-height:40vh;background-color: #303030;}
         </style>
         <div class="screen">
-            <paper-toolbar style="width:100%;align-self:flex-end;">
-                <paper-icon-button on-tap="_takepicture" slot="top"   icon="image:camera-alt">Bewaar foto</paper-icon-button>
-                <div slot="top" class="title">Maak foto</div>
-                <paper-icon-button on-tap="_save"  slot="top" icon="save">Foto toevoegen</paper-icon-button>
-            </paper-toolbar>
+            <slim-image-control photo="{{data}}" on-photo-changed="_updateCanvas">foto control</slim-image-control>
             <br/>
             <br/>
             <input hidden="true" type="file" id="btnpic" accept="image/*">
@@ -41,6 +37,41 @@
               type:String, 
               value:''
           }
+      },
+      _updateCanvas(){
+          setTimeout(()=>{
+            this.$.canvas.getContext("2d").clearRect(0, 0, this.$.canvas.width, this.$.canvas.height);
+          console.log('photo data changed');
+            var img = document.createElement("img");
+            img.onload = () => {
+                var ctx =  this.$.canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                var MAX_WIDTH = 400;
+                var MAX_HEIGHT = 300;
+                var width = img.width;
+                var height = img.height;
+
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                this.$.canvas.width = width;
+                this.$.canvas.height = height;
+                var ctx = this.$.canvas.getContext("2d");
+                console.log('drawing new image..');
+                ctx.drawImage(img, 0, 0, width, height);
+                this.$.canvas.style.display='block';
+            };
+            img.src = this.data;
+          },10);
       },
       ready(){
         this.$.btnpic.addEventListener('change', function(e){

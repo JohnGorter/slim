@@ -6,11 +6,34 @@
             #container { position:fixed ;display:flex;align-items:flex-start;justify-content:flex-start;flex-flow:column;width:100vw;height:90vh;background-color:#303030}
             .image { -webkit-transform: translate3d(0,0,0);position:absolute;width:100vw;height:80vh;}
             .image.moving {position:absolute;width:100vw;height:500px;opacity:1}
-            canvas { z-index: 101;}
         </style>
+
         <div id="container">
-            
-              <template is="dom-if" if="{{userprofile.isAdmin}}">
+
+            <!-- hidden canvas for image manipulation -->
+            <canvas id="canvas" hidden width="0" height="0" style="border:2px solid red;z-index:110;">hier</canvas> 
+
+            <!-- delete confirmation dialog -->
+            <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
+                <p>Bevesting het verwijderen van de foto. Weet u het zeker? </p>
+                <div class="buttons">
+                    <paper-button dialog-confirm autofocus on-tap="_delete">Ja, verwijder!</paper-button>
+                    <paper-button dialog-confirm autofocus>Annuleren</paper-button>
+                </div>
+            </paper-dialog>
+
+            <!-- LOADING placeholder -->
+            <template is="dom-if" if="{{!_isDone(renderedItemCount)}}">
+                <img style="position:relative;height:50px;align-self:center;top:25%;" src="./images/loading.svg" />
+            </template>
+
+            <!-- image gallery container -->
+            <template is="dom-repeat" items="{{images}}" rendered-item-count="{{renderedItemCount}}" initialCount="1">
+                    <div class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
+            </template>
+         
+             <!-- image manipulation toolbar -->
+            <template is="dom-if" if="{{userprofile.isAdmin}}">
                 <paper-toolbar style="width:100vw;top:500px;">
                     <span slot="top" class="title"> </span>
                     <paper-icon-button slot="top" icon="undo" on-tap="_undo"></paper-icon-button>
@@ -20,31 +43,12 @@
                 </paper-toolbar>
             </template> 
 
-             <canvas id="canvas" hidden width="0" height="0" style="border:2px solid red;z-index:110;">hier</canvas> 
-
-            <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
-                <p>Bevesting het verwijderen van de foto. Weet u het zeker? </p>
-                <div class="buttons">
-                    <paper-button dialog-confirm autofocus on-tap="_delete">Ja, verwijder!</paper-button>
-                    <paper-button dialog-confirm autofocus>Annuleren</paper-button>
-                </div>
-            </paper-dialog>
-
-              <firebase-document app-name="slimapp" data="{{fbPhoto}}" path="/photos/{{selectedPhoto.$key}}"></firebase-document>
-
-
-            </firebase-document>
-
-            <template is="dom-if" if="{{!_isDone(renderedItemCount)}}">
-                <img style="position:relative;height:50px;align-self:center;top:25%;" src="./images/loading.svg" />
-            </template>
-
-            <template is="dom-repeat" items="{{images}}" rendered-item-count="{{renderedItemCount}}" initialCount="1">
-                    <div class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
-            </template>
-         
             <h1 class="title" id="title"></h1>
             <h1 class="details" id="details"></h1>
+
+
+            <!-- data components -->
+            <firebase-document app-name="slimapp" data="{{fbPhoto}}" path="/photos/{{selectedPhoto.$key}}"></firebase-document>
         </div>
     </script>
     </body>
