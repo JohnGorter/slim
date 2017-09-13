@@ -1,0 +1,19 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html" />
+<dom-module id="firebase-storage">
+    <template>
+        <h1>Firebase Storage is loaded!!</h1>
+    </template>
+    <script>
+    class FirebaseStorage extends Polymer.Element {
+        static get is() { return 'firebase-storage';}
+        static get properties(){
+            return {
+                name:{
+                    type:String, value:'john'
+                }
+            };
+        }
+    }
+    customElements.define(FirebaseStorage.is, FirebaseStorage);
+    </script>
+</dom-module>

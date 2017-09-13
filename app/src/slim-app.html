@@ -15,6 +15,8 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html" />
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html" />
 <link rel="import" href="../bower_components/slate-font-awesome/slate-font-awesome.html">
+
+<link rel="import" href="./firebase-storage.html" />
 <link rel="import" href="./slim-footer.html" />
 <link rel="import" href="./slim-overlay.html" />
 <link rel="import" href="./slim-theme.html" />
@@ -34,6 +36,7 @@
             .footer ul { margin-top:60px;font-size:14px;margin-left:0px;}
             li { list-style: none;margin:15px;list-style-position:unset}
         </style>
+
    <app-header fixed condenses effects="waterfall">
         <app-toolbar sticky$="[[_shouldStick(smallscreen)]]" class="toolbar"   >
             <paper-icon-button icon="menu" class="menu-btn" on-tap="toggle"></paper-icon-button>
@@ -95,7 +98,13 @@
     
     <template is="dom-if" if="{{smallscreen}}"><br/>
         <div class="main-screen">
-            <slim-mobile-pages selectedpage="{{selectedpage}}" userprofile="{{userprofile}}"><img style="height:50px" src="./images/loading.svg"/></slim-mobile-pages>
+            <firebase-storage></firebase-storage>
+            <slim-mobile-pages 
+                    selectedpage="{{selectedpage}}" 
+                    userprofile="{{userprofile}}" 
+                    on-photo-delete="_delete" on-photo-save="_save" on-photo-taken="_addPhoto" key="$key"
+                    portfolio="{{portfolio}}"><img style="height:50px" src="./images/loading.svg"/>
+            </slim-mobile-pages>
             <slim-overlay src="/images/header-splatters.svg"></slim-overlay>
         </div>
         </template>
@@ -108,6 +117,7 @@
 
         <!-- non visual components -->
         <slim-category-data categories="{{categories}}" on-categories-changed="log">data </slim-category-data>
+
         <iron-media-query query="max-width: 767px" query-matches="{{smallscreen}}"></iron-media-query>
         <firebase-app
             name="slimapp"
@@ -118,6 +128,8 @@
         </firebase-app>
         <firebase-auth id="login" provider="google" app-name="slimapp" user="{{user}}"> </fireabse-auth>
         <firebase-document app-name="slimapp" data="{{userprofile}}" path="/users/{{user.uid}}"></firebase-document>
+        <firebase-query app-name="slimapp" path="/photos" data="{{portfolio}}" id="fbquery"></firebase-query>
+        <firebase-document id="fbdoc" path="/photos/{{selectedPhotoId}}" data="{{selectedPhoto}}" app-name="slimapp"></firebase-document>
 
        
 
@@ -140,6 +152,19 @@
                     type:Object, 
                     value: { isAdmin:false}
                 }
+            },
+            _addPhoto() {
+                this.$.fbquery.ref.push({ photo: event.detail.photo, title: event.detail.title });
+                this.selectedpage = 3;
+            },
+            _save(){
+              this.selectedPhotoId = event.detail.key;
+              this.set('selectedPhoto.photo',  event.detail.photo);
+            },
+            _delete() {
+                this.selectedPhotoId = event.detail.key;
+                this.selectedPhoto = null;
+                this.$.fbdoc.saveValue('/photos', this.selectedPhotoId);
             },
             signin(){
                 //this.set('userprofile.isAdmin',true);

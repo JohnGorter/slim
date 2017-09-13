@@ -68,23 +68,17 @@
     <section></section>
     <section>
         <div class="fullscreen">
-            <slim-image-caroussel id="caroussel" images="{{portfolio}}" on-photo-delete="_delete" userprofile="{{userprofile}}">
+            <slim-image-caroussel id="caroussel" images="{{portfolio}}" key="{{key}}" userprofile="{{userprofile}}">
                 <img style="height:50px" src="./images/loading.svg" />
-</slim-image-caroussel>
+            </slim-image-caroussel>
+            
 </div>
 </section>
 <section>
-    <slim-photo-page on-photo-taken="_addPhoto"></slim-photo-page>
+    <slim-photo-page></slim-photo-page>
 </section>
 
 </iron-pages>
-
-
-<firebase-query app-name="slimapp" path="/photos" data="{{portfolio}}" id="fbquery">
-</firebase-query>
-
-<firebase-document id="fbdoc" path="/photos/{{selectedPhotoId}}" data="{{selectedPhoto}}" app-name="slimapp">
-</firebase-document>
 
 
 </template>
@@ -92,13 +86,9 @@
         Polymer({
             is: 'slim-mobile-pages',
             properties: {
-                selectedPhotoId: {
-                    type: String,
-                    value: ''
-                },
-                selectedPhoto: {
-                    type: Object,
-                    value: {}
+                key:{
+                    type:String,
+                    value:""
                 },
                 selectedpage: {
                     type: Number,
@@ -119,18 +109,8 @@
                     ]
                 }
             },
-            _delete() {
-                this.selectedPhotoId = event.detail.photo.$key;
-                this.selectedPhoto = null;
-                this.$.fbdoc.saveValue('/photos', this.selectedPhotoId);
-            },
-            _addPhoto() {
-                this.$.fbquery.ref.push({ photo: event.detail.photo, title: event.detail.title });
-                this.selectedpage = 3;
-            },
-            _logPage() {
-                console.log('page switch');
-            }
+           
+           
         })
     </script>
 </dom-module>

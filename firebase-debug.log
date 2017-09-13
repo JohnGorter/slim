@@ -1,0 +1,24 @@
+[debug] [2017-09-13T14:29:18.999Z] ----------------------------------------------------------------------
+[debug] [2017-09-13T14:29:19.001Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2017-09-13T14:29:19.001Z] CLI Version:   3.9.2
+[debug] [2017-09-13T14:29:19.001Z] Platform:      darwin
+[debug] [2017-09-13T14:29:19.001Z] Node Version:  v8.4.0
+[debug] [2017-09-13T14:29:19.002Z] Time:          Wed Sep 13 2017 16:29:19 GMT+0200 (CEST)
+[debug] [2017-09-13T14:29:19.002Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-13T14:29:19.014Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-13T14:29:19.014Z] > authorizing via signed-in user
+[debug] [2017-09-13T14:29:19.016Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-09-13T14:29:19.016Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/Q5OTLjzvRrZOI35yj6zhZ8ItZbz3aSJZq_DLnu3HTD8',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed Sep 13 2017 16:29:19 GMT+0200 (CEST)
+[debug] [2017-09-13T14:29:19.196Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-13T14:29:19.213Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/rep-app-dcb15  
+ Wed Sep 13 2017 16:29:19 GMT+0200 (CEST)
+[debug] [2017-09-13T14:29:20.073Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-13T14:29:20.074Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/rep-app-dcb15/tokens  
+ Wed Sep 13 2017 16:29:20 GMT+0200 (CEST)
+[debug] [2017-09-13T14:29:20.788Z] <<< HTTP RESPONSE 200
