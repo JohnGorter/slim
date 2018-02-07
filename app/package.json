@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@iconica/iconicaelements": "^1.0.34",
+    "@polymer/app-layout": "3.0.0-pre.1",
+    "@polymer/iron-icon": "next",
+    "@polymer/iron-icons": "next",
+    "@polymer/iron-list": "next",
+    "@polymer/iron-pages": "3.0.0-pre.1",
+    "@polymer/paper-button": "next",
+    "@polymer/paper-card": "next",
+    "@polymer/paper-dialog": "next",
+    "@polymer/paper-icon-button": "next",
+    "@polymer/paper-input": "next",
+    "@polymer/paper-item": "next",
+    "@polymer/paper-listbox": "next",
+    "@polymer/paper-toolbar": "next",
+    "@polymer/polymer": "^3.0.0-pre.7"
+  }
+}

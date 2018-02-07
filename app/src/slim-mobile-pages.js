@@ -1,10 +1,14 @@
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html" />
+import '../node_modules/@polymer/polymer/polymer.js'
+import '/node_modules/@polymer/iron-pages/iron-pages.js'
+import '/node_modules/@iconica/iconicaelements/ico-wizard.js' 
+import './slim-photo-page.js'
+import './slim-image-caroussel.js'
+import { Element } from '../node_modules/@polymer/polymer/polymer-element.js'
 
-<dom-module id="slim-mobile-pages">
-    <template>
+const htmlTemplate = `
         <style>
             div.fullscreen { left:0px;top:60px;width:100vw;height:400px;background-color: #303030;}
-            div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;height:100vh;width:70vw;min-width:300px;min-height:40vh;}
+            div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;width:70vw;min-width:300px;min-height:40vh;}
             div.diensten-container { display:flex;font-size:12px;flex-wrap:wrap;width:70vw;justify-content: space-between;align-content: center;}
             div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
             div.content-block-2{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
@@ -21,7 +25,12 @@
             paper-button.btn-inverse{color: var(--font-color-secondary); margin: 10px;}
             paper-button.btn-primary {background-color: var(--positive-highlight);color: white; text-decoration:none;}
             paper-button.btn-secondary{background-color: var(--positive-highlight);color: white;}   
+
+            div[slot="nocontent"] { height:60vh;display:flex;align-items:center;justify-content:center}
+            slim-image-control { position:fixed;bottom:0px;}
+            ico-wizard { z-index:50}
         </style>
+       
 <iron-pages selected="{{selectedpage}}">
     <!-- Begin home -->
     <div>
@@ -67,25 +76,36 @@
 
     <section></section>
     <section>
-        <div class="fullscreen">
-            <slim-image-caroussel id="caroussel" images="{{portfolio}}" key="{{key}}" userprofile="{{userprofile}}">
-                <img style="height:50px" src="./images/loading.svg" />
-            </slim-image-caroussel>
-            
-</div>
-</section>
-<section>
-    <slim-photo-page></slim-photo-page>
-</section>
+            <div class="fullscreen">
+           
+               
+                <ico-wizard id="gallery" progressballs showfinish swipeable on-step-changed="_changePhoto">
+                <template is="dom-repeat" items="{{portfolio}}" on-dom-change="_updateUI">
+                <div step$="{{index}}" class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
+                 </template>
+                 <div slot="nocontent">no photos available</div>
+                </ico-wizard>
+
+                <!-- image manipulation toolbar -->
+                <template is="dom-if" if="{{user.isAdmin}}">
+                       <slim-image-control photo="[[selectedPhoto.photo]]" title="" no_undo no_save no_new on-photo-delete="_delete" on-photo-changed="_save" enabled="{{_getItems(portfolio)}}"></slim-image-control>
+               </template> 
+                
+        </div>
+    </section>
+    <section>
+        <slim-photo-page>Photo page loading...</slim-photo-page>
+    </section>
 
 </iron-pages>
+`
+export class SlimMobilePages extends Element {
+    static get template() {
+        return htmlTemplate;
+    }
 
-
-</template>
-<script>
-        Polymer({
-            is: 'slim-mobile-pages',
-            properties: {
+    static get properties() { 
+        return {
                 key:{
                     type:String,
                     value:""
@@ -108,9 +128,60 @@
                         { name: 'Interieuradvies', description: 'Spelen met licht? Bar of eethoek? Loungebank of loveseat? Vraag SLIM om advies!', picture: '../images/dienst1.jpg' }
                     ]
                 }
-            },
-           
-           
-        })
-    </script>
-</dom-module>
+            }
+    };
+
+    _changePhoto(s) {
+        console.log('s', s);
+        this.selectedIndex = s.detail.value;
+        this.selectedPhoto = this.portfolio[s.detail.value];
+    }
+    _getItems(portfolio){
+        return portfolio.length;
+    }
+
+    _updateUI() { 
+        this.$.gallery._setupUI(this.selectedIndex);
+        // if (this.selectedIndex)
+        //     this.selectedPhoto = this.portfolio[this.selectedIndex];
+    }
+    _delete(e){
+        e.stopPropagation(); 
+        e.preventDefault(); 
+
+        if (!this.selectedPhoto)  this.selectedPhoto = this.portfolio[0];
+        var event = new CustomEvent('photo-delete', {detail: { photo: this.selectedPhoto }, bubbles: true, composed: true});
+        this.dispatchEvent( event);
+
+        setTimeout(() => {
+            if (this.portfolio.length == 0) this.$.gallery._setupUI(0);
+            else 
+                if (this.selectedIndex >= this.portfolio.length){
+                    this.selectedIndex = this.portfolio.length -1 ;
+                    this.selectedPhoto = this.portfolio[this.selectedIndex];
+                    this.$.gallery.step = this.selectedIndex;
+                }
+        }, 100);
+    }
+
+    _save(e){
+        e.stopPropagation(); 
+        e.preventDefault();
+
+        if (!this.selectedPhoto)  this.selectedPhoto = this.portfolio[0];
+        this.selectedPhoto.photo = e.detail.value;
+        var event = new CustomEvent('photo-save', {detail: { photo: this.selectedPhoto }, bubbles: true, composed: true});
+        this.dispatchEvent( event);
+    }
+
+    showLast() {
+        this.selectedpage = 3;
+        this.selectedIndex = this.portfolio.length -1;
+        this.selectedPhoto = this.portfolio[this.selectedIndex];
+        this.$.gallery._setupUI(this.selectedIndex);
+    }
+}
+
+
+
+customElements.define('slim-mobile-pages', SlimMobilePages);

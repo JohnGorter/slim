@@ -1,13 +1,46 @@
+import '../node_modules/@polymer/polymer/polymer.js'
+import { Element } from '../node_modules/@polymer/polymer/polymer-element.js'
+
+
+// custom style for pallete definition
+const htmlTemplate = `
+    <custom-style>
+        <style>
+            html { overscroll-behavior:none;overflow: hidden;height: 100%;}
+            body { user-select: none;margin:0px;background-color:var(--background-color); font-family: 'Roboto', 'Noto';height: 100%; overflow: auto;}
+                    :root { 
+                --dark-primary-color:#0A324E; 
+                --default-primary-color:#136872;
+                --light-primary-color: #ECECEC; 
+                --text-primary-color: #FFFFFF; 
+                --accent-color: #18C29C; 
+                --primary-text-color: #000; 
+                --secondary-text-color: #136872; 
+                --divider-color: #BDBDBD;
+                --background-color: #303030;
+                --main-background-color:#303030;
+            }
+        </style>
+    </custom-style>
+`
+
+const div = document.createElement("div");
+div.hidden = true; 
+div.innerHTML = htmlTemplate; 
+document.body.appendChild(div); 
+
+// shared style for inclusion in shadow dom
+const htmlSharedTemplate = `
 <dom-module id="slim-theme">
     <template>
         <style>
-
-
               :root {
         --font-color-primary:       #fff;
         --font-color-secondary:     #000;
         --positive-highlight:       #BFC218;
-        --primary-background-color: #fff;              
+        --primary-background-color: #fff;  
+        --error-color: red;  
+        --paper-dialog-color: #303030;        
         }
 
             h1 {
@@ -50,19 +83,18 @@
 
 .navbar-logo {
     height: 110px;
-    width: 33.3%;
+    width: 75.0%;
     margin: 5px 0px 0px 75px;
 }
 
 .navbar-menu {
     height: 89px;
-    width: 66.6%;
+    width: 100vw;
     display: inline-block;
 }
 
 .navbar-menu ul {
     list-style-type: none;
-    width: 66.6%;
     height: 89px; 
     position: auto; 
     overflow: auto;
@@ -96,24 +128,30 @@
                 width:100%;
             }
 
+            /* Content */
+            .slider-splatters{
+                background: url(/images/header-splatters.svg) no-repeat;
+                height: 550px;
+                width: 700px;
+                
+                position:absolute;
+                bottom:-350px;
+                left:-180px;
+               
+            }
+            .slider-splatters h5 { margin-left:200px;margin-top:135px;}
+
 #slider{
     background: url(/images/bg.jpg) no-repeat center center fixed;
     height:100%;
+    top:22px;
     position: relative; 
     z-index: -1;
 }
 
 
 
-            /* Content */
-            .slider-splatters{
-                background: url(/images/header-splatters.svg) no-repeat;
-                height: 550px;
-                width: 700px;
-                padding: 180px 0px 0px 0px;
-                position: absolute;
-                margin: -500px 0px 0px -300px;
-            }
+            
 
       #content {
     background-color:none;
@@ -226,6 +264,7 @@ p { margin:0px;}
 }
 
 
+
 /* Testimonials */
 
 #testimonials{
@@ -314,6 +353,8 @@ p { margin:0px;}
             --paper-listbox-color:var(--app-primary-color, white);
         }
 
+        paper-dialog p { color:#303030;}
+
         .toolbar { height:0px;  }
 
 
@@ -375,3 +416,9 @@ p { margin:0px;}
             </style>
     </template>
 </dom-module>
+`
+const divShared = document.createElement("div");
+divShared.hidden = true; 
+divShared.innerHTML = htmlSharedTemplate; 
+document.body.appendChild(divShared); 
+
