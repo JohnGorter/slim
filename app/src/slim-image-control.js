@@ -114,9 +114,10 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
           this.$.btnpic.click();
       }
       _updateCanvas(){
+          return;
           this.$.preview.hidden = !(this.photo != "" && this.preview);
           if (this.photo != ""){
-            this.set('undostack', []);
+           // this.set('undostack', []);
             setTimeout(()=>{
                // this.$.canvas.getContext("2d").clearRect(0, 0, this.$.canvas.width, this.$.canvas.height);
                 var img = document.createElement("img");

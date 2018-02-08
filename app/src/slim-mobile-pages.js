@@ -9,7 +9,7 @@ const htmlTemplate = `
         <style>
             :root {
                 --wizard-header-mixin: {
-                    display:flex;justify-content:center;position:absolute;margin-top:10px;
+                    display:flex;justify-content:center;position:fixed;top:65px;
                 };  
                 --wizard-headertitle-mixin: {
                     text-shadow:2px 2px 0px #000000;
@@ -92,7 +92,7 @@ const htmlTemplate = `
                
                 <ico-wizard id="gallery" progressballs showfinish swipeable on-step-changed="_changePhoto">
                 <template is="dom-repeat" items="{{portfolio}}" on-dom-change="_updateUI">
-                <div step$="{{index}}" class="image" title$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:transparent'></div>
+                <div step$="{{index}}" class="image" title$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:100vh;width:100vw;z-index:{{index}};background-color:transparent'></div>
                  </template>
                  <div slot="nocontent">no photos available</div>
                 </ico-wizard>
