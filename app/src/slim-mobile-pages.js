@@ -1,9 +1,9 @@
 import '../node_modules/@polymer/polymer/polymer.js'
 import '/node_modules/@polymer/iron-pages/iron-pages.js'
 import '/node_modules/@iconica/iconicaelements/ico-wizard.js' 
-import './slim-photo-page.js'
-import './slim-image-caroussel.js'
 import { Element } from '../node_modules/@polymer/polymer/polymer-element.js'
+
+import './slim-image-control.js'
 
 const htmlTemplate = `
         <style>
@@ -39,6 +39,7 @@ const htmlTemplate = `
             div[slot="nocontent"] { height:60vh;display:flex;align-items:center;justify-content:center}
             slim-image-control { position:fixed;bottom:0px;}
             ico-wizard { z-index:5}
+
         </style>
        
 <iron-pages selected="{{selectedpage}}">
@@ -98,7 +99,7 @@ const htmlTemplate = `
 
                 <!-- image manipulation toolbar -->
                 <template is="dom-if" if="{{user.isAdmin}}">
-                       <slim-image-control photo="[[selectedPhoto.photo]]" title="" no_undo no_save no_new on-photo-delete="_delete" on-photo-changed="_save" enabled="{{_getItems(portfolio)}}"></slim-image-control>
+                       <slim-image-control photo="[[selectedPhoto.photo]]" title="" no_undo no_save on-photo-delete="_delete" on-photo-changed="_save" on-new-photo="_saveNew" enabled="{{_getItems(portfolio)}}"></slim-image-control>
                </template> 
                 
         </div>
@@ -184,6 +185,18 @@ export class SlimMobilePages extends Element {
         this.selectedPhoto.photo = e.detail.value;
         var event = new CustomEvent('photo-save', {detail: { photo: this.selectedPhoto }, bubbles: true, composed: true});
         this.dispatchEvent( event);
+    }
+
+    _saveNew(e){
+        e.stopPropagation(); 
+        e.preventDefault();
+        
+        if (this.shadowRoot.querySelector("#title").validate())
+        {
+            var event = new CustomEvent('photo-save', {detail: { photo: { photo: e.detail.photo, title:this.title }}, bubbles: true, composed: true});
+            this.dispatchEvent( event);
+            this.data = "";
+        }
     }
 
     showLast() {

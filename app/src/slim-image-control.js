@@ -7,10 +7,15 @@ const htmlTemplate = `
     :host { z-index: 10;width:100%;display: flex;
         flex-flow: column;
         align-items: flex-end;
-    }}
-    paper-dialog p { margin-top:24px;}
+    }
+    p.dialogp { margin-top:24px;}
     paper-icon-button[disabled] { opacity:0.2 }
     paper-toolbar { width:100vw;left:0px;opacity:0.9;}
+    paper-input.reverse { 
+        --paper-input-container-input-color:black;
+        --paper-input-container-color:black;
+        --paper-input-container-invalid-color:red;
+        --paper-input-container-input-color: black;}
 
     .previewcontainer { width:100vw ;display:flex;align-items:center;justify-content:center;height:100vh;}
     .previewcontainer[hidden] { width:0vw ;display:none;align-items:center;justify-content:center;height:100vh;}
@@ -36,12 +41,23 @@ const htmlTemplate = `
    
     <!-- delete confirmation dialog -->
     <paper-dialog id="modal" modal on-iron-overlay-opened="_patchOverlay">
-    <p>Bevesting het verwijderen van de foto. Weet u het zeker? </p>
+    <p class="dialogp">Bevesting het verwijderen van de foto. Weet u het zeker? </p>
     <div class="buttons">
         <paper-button dialog-confirm autofocus on-tap="_delete">Ja, verwijder!</paper-button>
         <paper-button dialog-confirm autofocus>Annuleren</paper-button>
     </div>
     </paper-dialog>
+
+    <!-- title  dialog -->
+    <paper-dialog id="modalTitle" modal on-iron-overlay-opened="_patchOverlay">
+    <p class="dialogp">Geef een titel op voor de foto </p>
+    <paper-input class="reverse" id="title" required auto-validate error-message="Verplicht invoeren" label="titel" value="{{title}}"></paper-input>
+    <div class="buttons">
+        <paper-button dialog-confirm autofocus on-tap="_saveNew">Sla op!</paper-button>
+        <paper-button dialog-confirm autofocus>Annuleren</paper-button>
+    </div>
+    </paper-dialog>
+
 `
 
 export class SlimImageControl extends LegacyElementMixin(Element) {
@@ -86,6 +102,9 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
         _save(){
             this.dispatchEvent( new CustomEvent('photo-save', { detail: {  photo:this.photo}, bubbles:true, composed:true}));
         }
+        _saveNew() {
+            this.dispatchEvent( new CustomEvent('photo-save', { detail: {  photo: { photo:this.newimage, title:this.title}}, bubbles:true, composed:true}));
+        }
 
         _saveEnabled(){
             return this.enabled && this.photo;
@@ -126,11 +145,14 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
             var reader = new FileReader();
             var img = document.createElement("img");
             reader.onload = function(evt){
-                img.src = reader.result;
-                img.onload = () => {
-                   this._drawCanvas(img, 0.5);
-                   this._updatePhoto();
-                };
+                this.newimage = reader.result;
+               // img.onload = () => {
+                  // this._drawCanvas(img, 0.5);
+                  // this._updatePhoto();
+                  this.title = "";
+                  this.$.modalTitle.open();
+                 
+              //  }
             }.bind(this);
             reader.readAsDataURL(data);
       }

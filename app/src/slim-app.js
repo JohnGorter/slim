@@ -58,9 +58,6 @@ const htmlTemplate = `
     <paper-item>Diensten</paper-item>
     <paper-item>Tarieven</paper-item>
     <paper-item>Portfolio</paper-item>
-    <template is="dom-if" if="{{user.isAdmin}}">
-        <paper-item>Maak foto</paper-item>
-    </template>
     </paper-listbox>
     <div class="footer">
     <ul style="padding:0px;text-align:center">
