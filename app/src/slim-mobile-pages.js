@@ -7,7 +7,16 @@ import { Element } from '../node_modules/@polymer/polymer/polymer-element.js'
 
 const htmlTemplate = `
         <style>
-            div.fullscreen { left:0px;top:60px;width:100vw;height:100vh; }
+            :root {
+                --wizard-header-mixin: {
+                    display:flex;justify-content:center;position:absolute;margin-top:10px;
+                };  
+                --wizard-headertitle-mixin: {
+                    text-shadow:2px 2px 0px #000000;
+                    justify-self:center;
+                };  
+            }
+            div.fullscreen { left:0px;top:60px;width:100vw;height:80vh; display:flex;align-items:center}
             div.bg { position:absolute;left:0px;top:0px;width:100vw;height:100vh;filter:blur(20px);background:no-repeat center;z-index:-1;}
             div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;width:70vw;min-width:300px;min-height:40vh;}
             div.diensten-container { display:flex;font-size:12px;flex-wrap:wrap;width:70vw;justify-content: space-between;align-content: center;}
@@ -29,7 +38,7 @@ const htmlTemplate = `
 
             div[slot="nocontent"] { height:60vh;display:flex;align-items:center;justify-content:center}
             slim-image-control { position:fixed;bottom:0px;}
-            ico-wizard { z-index:50}
+            ico-wizard { z-index:5}
         </style>
        
 <iron-pages selected="{{selectedpage}}">
@@ -82,7 +91,7 @@ const htmlTemplate = `
                
                 <ico-wizard id="gallery" progressballs showfinish swipeable on-step-changed="_changePhoto">
                 <template is="dom-repeat" items="{{portfolio}}" on-dom-change="_updateUI">
-                <div step$="{{index}}" class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:transparent'></div>
+                <div step$="{{index}}" class="image" title$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:transparent'></div>
                  </template>
                  <div slot="nocontent">no photos available</div>
                 </ico-wizard>
@@ -133,7 +142,6 @@ export class SlimMobilePages extends Element {
     };
 
     _changePhoto(s) {
-        console.log('s', s);
         this.selectedIndex = s.detail.value;
         this.selectedPhoto = this.portfolio[s.detail.value];
         if (this.selectedPhoto)

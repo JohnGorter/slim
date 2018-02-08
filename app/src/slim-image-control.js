@@ -10,7 +10,7 @@ const htmlTemplate = `
     }}
     paper-dialog p { margin-top:24px;}
     paper-icon-button[disabled] { opacity:0.2 }
-    paper-toolbar { width:100vw;left:0px;}
+    paper-toolbar { width:100vw;left:0px;opacity:0.9;}
 
     .previewcontainer { width:100vw ;display:flex;align-items:center;justify-content:center;height:100vh;}
     .previewcontainer[hidden] { width:0vw ;display:none;align-items:center;justify-content:center;height:100vh;}
@@ -31,7 +31,7 @@ const htmlTemplate = `
     <paper-icon-button slot="top" icon="image:rotate-90-degrees-ccw" hidden$="{{no_rotate}}" disabled$="{{!enabled}}"on-tap="_rotate"></paper-icon-button>
     <paper-icon-button slot="top" icon="invert-colors" hidden$="{{no_gray}}"  disabled$="{{!enabled}}" on-tap="_grayscale"></paper-icon-button>
     <paper-icon-button slot="top" icon="delete" hidden$="{{no_delete}}" disabled$="{{!enabled}}"on-tap="_deleteConfirm"></paper-icon-button>
-    <paper-icon-button on-tap="_save" hidden$="{{no_save}}" disabled$="{{!enabled}}" slot="top" icon="save">Foto toevoegen</paper-icon-button>
+    <paper-icon-button on-tap="_save" hidden$="{{no_save}}" disabled$="{{!_saveEnabled(enabled,photo)}}" slot="top" icon="save">Foto toevoegen</paper-icon-button>
     </paper-toolbar>
    
     <!-- delete confirmation dialog -->
@@ -54,7 +54,7 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
             no_gray: { type:Boolean, value:false, reflectToAttribute:true},
             no_delete: { type:Boolean, value:false, reflectToAttribute:true},
             no_save: { type:Boolean, value:false, reflectToAttribute:true},
-
+            enabled:  { type:Boolean, value:true, reflectToAttribute:true},
             title:{
                 type:String,
                 value:''
@@ -86,6 +86,11 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
         _save(){
             this.dispatchEvent( new CustomEvent('photo-save', { detail: {  photo:this.photo}, bubbles:true, composed:true}));
         }
+
+        _saveEnabled(){
+            return this.enabled && this.photo;
+        }
+
       _takepicture(){
           this.$.btnpic.click();
       }

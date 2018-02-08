@@ -45,15 +45,13 @@ export class SlimAuthentication extends Element {
             var userRef = firebase.database().ref('users/' + result.user.uid + '/isAdmin');
             userRef.on('value', (snapshot) => {
                 var isAdmin = snapshot.val();
-                console.log("I know user is admin", isAdmin)
                 this.set('user.isAdmin',isAdmin);
             });
             // ...
-          }).catch(function(error) {
+          }).catch((error) => {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
-            console.log('error', errorCode, errorMessage);
             this.user = {};
             // ...
           });

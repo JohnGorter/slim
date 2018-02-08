@@ -160,11 +160,6 @@ export class SlimCaroussel extends LegacyElementMixin(Element) {
             this._updateDetails();
         };
     }
-    _dumpInfo(){
-        for (var e of a){
-            console.log('e' + e.tagName, e.style.zIndex);
-        }
-    }
     _updateDetails(){
         var e = this._getTopMostImage();
         if (e && e.attributes && e.attributes["alt"]){
@@ -185,5 +180,3 @@ export class SlimCaroussel extends LegacyElementMixin(Element) {
 }
   
 customElements.define('slim-image-caroussel', SlimCaroussel);
-
-console.log('image caroussel loaded!');

@@ -6,7 +6,7 @@ const htmlTemplate = `
     <style>
         img  { fill: white;}
         div.screen {align-self:center;border-radius:7px;margin-top:60px;padding:0px;display:flex;justify-content: flex-start;align-items:center;flex-flow:column;width:80vw;min-width:400px;min-height:40vh;background-color: #303030;}
-
+        div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;width:70vw;min-width:300px;min-height:40vh;}
         :root {
             --paper-input-container-invalid-color: red;   
         }
@@ -16,20 +16,18 @@ const htmlTemplate = `
     </style>
     <div class="screen">
         <slim-image-control id="imagecontrol" photo="{{data}}" preview no_rotate no_gray no_undo no_delete  on-photo-save="_save">
-        <div hidden$="{{!data}}" slot="title" id="titleinput"><paper-input id="title" required auto-validate error-message="Verplicht invoeren" label="Voeg een titel toe aan de foto" value="{{title}}"></paper-input></div>
+    
         </slim-image-control>
-        <br/>
-        <br/>
+        <div hidden$="{{!data}}" style="position:fixed;bottom:10px;left:20px;width:60vw;" id="titleinput"><paper-input id="title" required auto-validate error-message="Verplicht invoeren" label="Voeg een titel toe aan de foto" value="{{title}}"></paper-input></div>
        
         
         <template is="dom-if" if="{{!_hasImage(data)}}">
-            <div>Maak een foto door op het camera icoon <br/>
-                te drukken. Geef de foto een titel en sla de foto vervolgens op door op het diskette icoon te drukken.</div>
-            <!-- div that takes up no space but acts as a container to relative layout the arrows 
-            // <div style="position: relative; width: 0; height: 0">
-            // <img style="width:50px;height:100px;border:0px solid red;transform:rotateY(180deg);opacity:0.5;position:relative;top:-150px;left:-170px;" src="./images/arrow.svg"  />
-            // <img style="width:50px;height:200px;border:0px solid red;opacity:0.5;position:relative;top:-300px;left:120px;" src="./images/arrow.svg"  />
-            // </div>  -->
+            <div class="screen-header">
+                <h2>Maak een foto door op het camera icoon
+                te drukken. Geef de foto een titel en sla 
+                de foto vervolgens op door op het diskette 
+                icoon te drukken.</h2>
+            </div>
         </template>
         </div>
 `
@@ -46,6 +44,7 @@ export class SlimPhotoPage extends Element {
     _hasImage(){
         return this.data != "";
     }
+   
     _save(e){
         e.stopPropagation(); 
         e.preventDefault();

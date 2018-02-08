@@ -8,7 +8,7 @@ const htmlTemplate = `
         <style>
             html { overscroll-behavior:none;overflow: hidden;height: 100%;}
             body { user-select: none;margin:0px;background-color:var(--background-color); font-family: 'Roboto', 'Noto';height: 100%; overflow: auto;}
-                    :root { 
+            :root { 
                 --dark-primary-color:#0A324E; 
                 --default-primary-color:#136872;
                 --light-primary-color: #ECECEC; 
@@ -18,7 +18,7 @@ const htmlTemplate = `
                 --secondary-text-color: #136872; 
                 --divider-color: #BDBDBD;
                 --background-color: #303030;
-                --main-background-color:transparent;
+                --main-background-color:transparent;    
             }
         </style>
     </custom-style>
@@ -40,7 +40,8 @@ const htmlSharedTemplate = `
         --positive-highlight:       #BFC218;
         --primary-background-color: #fff;  
         --error-color: red;  
-        --paper-dialog-color: #303030;        
+        --paper-dialog-color: #303030;   
+           
         }
 
             h1 {

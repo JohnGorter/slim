@@ -11,6 +11,7 @@ const htmlTemplate = `
         .footer ul { margin-top:60px;font-size:14px;margin-left:0px;}
         li { list-style: none;margin:15px;list-style-position:unset}
         app-header { opacity:0.9;z-index:20;}
+        
     </style>
 
     <app-header fixed condenses effects="waterfall">
@@ -148,7 +149,6 @@ export class SlimApp extends Element {
                 }
             } 
             this.portfolio = photoarray;
-            console.log('portfolio', this.portfolio);
         });
     }
 
