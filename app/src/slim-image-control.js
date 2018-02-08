@@ -103,7 +103,7 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
             this.dispatchEvent( new CustomEvent('photo-save', { detail: {  photo:this.photo}, bubbles:true, composed:true}));
         }
         _saveNew() {
-            this.dispatchEvent( new CustomEvent('photo-save', { detail: {  photo: { photo:this.newimage, title:this.title}}, bubbles:true, composed:true}));
+            this.dispatchEvent( new CustomEvent('photo-save', { detail: {  photo: { photo:this.$.canvas.toDataURL(), title:this.title}}, bubbles:true, composed:true}));
         }
 
         _saveEnabled(){
@@ -145,14 +145,14 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
             var reader = new FileReader();
             var img = document.createElement("img");
             reader.onload = function(evt){
-                this.newimage = reader.result;
-               // img.onload = () => {
-                  // this._drawCanvas(img, 0.5);
-                  // this._updatePhoto();
-                  this.title = "";
-                  this.$.modalTitle.open();
+                img.src = reader.result;
+                img.onload = () => {
+                   this._drawCanvas(img, 0.5);
+                   //this._updatePhoto();
+                   this.title = "";
+                   this.$.modalTitle.open();
                  
-              //  }
+                }
             }.bind(this);
             reader.readAsDataURL(data);
       }
