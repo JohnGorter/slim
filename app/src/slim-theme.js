@@ -18,7 +18,7 @@ const htmlTemplate = `
                 --secondary-text-color: #136872; 
                 --divider-color: #BDBDBD;
                 --background-color: #303030;
-                --main-background-color:#303030;
+                --main-background-color:transparent;
             }
         </style>
     </custom-style>

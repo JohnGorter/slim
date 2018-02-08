@@ -10,6 +10,7 @@ const htmlTemplate = `
     }}
     paper-dialog p { margin-top:24px;}
     paper-icon-button[disabled] { opacity:0.2 }
+    paper-toolbar { width:100vw;left:0px;}
 
     .previewcontainer { width:100vw ;display:flex;align-items:center;justify-content:center;height:100vh;}
     .previewcontainer[hidden] { width:0vw ;display:none;align-items:center;justify-content:center;height:100vh;}
@@ -22,7 +23,7 @@ const htmlTemplate = `
     </div>
 
     <!-- image manipulation toolbar -->
-    <paper-toolbar width="100%">
+    <paper-toolbar>
    
     <div slot="top" class="title"><slot name="title"></slot></div>
     <paper-icon-button on-tap="_takepicture" slot="top" hidden$="{{no_new}}"   icon="image:camera-alt"></paper-icon-button>
@@ -93,7 +94,7 @@ export class SlimImageControl extends LegacyElementMixin(Element) {
           if (this.photo != ""){
             this.set('undostack', []);
             setTimeout(()=>{
-                this.$.canvas.getContext("2d").clearRect(0, 0, this.$.canvas.width, this.$.canvas.height);
+               // this.$.canvas.getContext("2d").clearRect(0, 0, this.$.canvas.width, this.$.canvas.height);
                 var img = document.createElement("img");
                 img.onload = () => {
                     this._drawCanvas(img, 1);

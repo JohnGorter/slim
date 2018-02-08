@@ -7,7 +7,8 @@ import { Element } from '../node_modules/@polymer/polymer/polymer-element.js'
 
 const htmlTemplate = `
         <style>
-            div.fullscreen { left:0px;top:60px;width:100vw;height:400px;background-color: #303030;}
+            div.fullscreen { left:0px;top:60px;width:100vw;height:100vh; }
+            div.bg { position:absolute;left:0px;top:0px;width:100vw;height:100vh;filter:blur(20px);background:no-repeat center;z-index:-1;}
             div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;width:70vw;min-width:300px;min-height:40vh;}
             div.diensten-container { display:flex;font-size:12px;flex-wrap:wrap;width:70vw;justify-content: space-between;align-content: center;}
             div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
@@ -76,12 +77,12 @@ const htmlTemplate = `
 
     <section></section>
     <section>
-            <div class="fullscreen">
-           
+            <div class="fullscreen" >
+                 <div class="bg" id="bg" ></div>
                
                 <ico-wizard id="gallery" progressballs showfinish swipeable on-step-changed="_changePhoto">
                 <template is="dom-repeat" items="{{portfolio}}" on-dom-change="_updateUI">
-                <div step$="{{index}}" class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:#303030'></div>
+                <div step$="{{index}}" class="image" alt$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:480px;width:100vw;z-index:{{index}};background-color:transparent'></div>
                  </template>
                  <div slot="nocontent">no photos available</div>
                 </ico-wizard>
@@ -135,6 +136,8 @@ export class SlimMobilePages extends Element {
         console.log('s', s);
         this.selectedIndex = s.detail.value;
         this.selectedPhoto = this.portfolio[s.detail.value];
+        if (this.selectedPhoto)
+            this.$.bg.style.backgroundImage = 'url("' + this.selectedPhoto.photo + '")';
     }
     _getItems(portfolio){
         return portfolio.length;
@@ -142,8 +145,9 @@ export class SlimMobilePages extends Element {
 
     _updateUI() { 
         this.$.gallery._setupUI(this.selectedIndex);
-        // if (this.selectedIndex)
-        //     this.selectedPhoto = this.portfolio[this.selectedIndex];
+        this.selectedPhoto = this.portfolio[this.selectedIndex];
+        if (this.selectedPhoto)
+            this.$.bg.style.backgroundImage = 'url("' + this.selectedPhoto.photo + '")';
     }
     _delete(e){
         e.stopPropagation(); 
