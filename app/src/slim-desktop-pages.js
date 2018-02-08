@@ -27,8 +27,8 @@ const htmlTemplate = `
                     <img src="../images/dienst1.jpg"/>
                 </div>
                 <div class="text-card-bottom">
-                    <h3> Dienst </h3>
-                    <p> Beschrijving van Dienst komt hier </p>
+                    <h3> Styling </h3>
+                    <p> Geef uw interieur een personal touch. Straal uit wie u bent! Van muurkleur tot meubelkeuze. </p>
                 </div>
             </div>
             <div class="text-card">
@@ -37,8 +37,8 @@ const htmlTemplate = `
                     <img src="../images/dienst1.jpg"/>
                 </div>
                 <div class="text-card-bottom">
-                    <h3> Dienst </h3>
-                    <p> Beschrijving van Dienst komt hier </p>
+                    <h3> Restyling </h3>
+                    <p> Met betaalbare en/of bestaande middelen uw leefomgeving een nieuwe persoonlijkheid geven. </p>
                 </div>
             </div>
             <div class="text-card">
@@ -47,8 +47,8 @@ const htmlTemplate = `
                     <img src="../images/dienst1.jpg"/>
                 </div>
                 <div class="text-card-bottom">
-                    <h3> Dienst </h3>
-                    <p> Beschrijving van Dienst komt hier </p>
+                    <h3> Schilderwerk </h3>
+                    <p> Zowel binnen- als buitenshuis mag goed schilderwerk gezien worden. En opvallen is niet erg! </p>
                 </div>
             </div>
             <div class="text-card">
@@ -57,8 +57,8 @@ const htmlTemplate = `
                     <img src="../images/dienst1.jpg"/>
                 </div>
                 <div class="text-card-bottom">
-                    <h3> Dienst </h3>
-                    <p> Beschrijving van Dienst komt hier </p>
+                    <h3> Interieuradvies </h3>
+                    <p> Spelen met licht? Bar of eethoek? Loungebank of loveseat? Vraag SLIM om advies! </p>
                 </div>
             </div>
         </div>

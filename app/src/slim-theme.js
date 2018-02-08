@@ -246,10 +246,6 @@ p { margin:0px;}
     height: 75px;
     position: absolute;
 }
-
-.text-card-top{
-    height: 50%;
-}
     
 .text-card-top img{
     width:100%;
@@ -264,17 +260,14 @@ p { margin:0px;}
     padding: 20px;
 }
 
-
-
 /* Testimonials */
 
 #testimonials{
-    background: url(/images/bg-testimonial.jpg) no-repeat center center fixed;
-    height:80%;
-    position: relative; 
-    z-index: -1;
+    background: url(/images/bg-testimonial.jpg) no-repeat center center;
     background-size:cover;
-    padding-top: 100px;
+    height: 800px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .quote {
@@ -282,8 +275,6 @@ p { margin:0px;}
        height: 300px;
        width: 760px;
        padding: 90px 80px 100px 100px;
-       margin: auto;
-       margin-left: 500px;
 }
 
 /* Footer */
@@ -291,9 +282,9 @@ p { margin:0px;}
   #footer {
     height: 150px;
     background-color: #232323;
-    margin: 0;
     padding: 67px;
     display: flex;
+    justify-content: flex-end;
     }
 
     #footer a {
