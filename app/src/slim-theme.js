@@ -18,7 +18,8 @@ const htmlTemplate = `
                 --secondary-text-color: #136872; 
                 --divider-color: #BDBDBD;
                 --background-color: #303030;
-                --main-background-color:transparent;    
+                --main-background-color:transparent;  
+                --main-card-color: #fff;  
             }
         </style>
     </custom-style>
@@ -405,6 +406,8 @@ p { margin:0px;}
 
             
             }
+
+
             </style>
     </template>
 </dom-module>

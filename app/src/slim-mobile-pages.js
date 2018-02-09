@@ -6,7 +6,7 @@ import { Element } from '../node_modules/@polymer/polymer/polymer-element.js'
 import './slim-image-control.js'
 
 const htmlTemplate = `
-        <style>
+        <style include="slim-theme">
             :root {
                 --wizard-header-mixin: {
                     display:flex;justify-content:center;position:fixed;top:65px;
@@ -18,9 +18,9 @@ const htmlTemplate = `
             }
             div.fullscreen { left:0px;top:60px;width:100vw;height:80vh; display:flex;align-items:center}
             div.bg { position:absolute;left:0px;top:0px;width:100vw;height:100vh;filter:blur(20px);background:no-repeat center;z-index:-1;}
-            div.screen-header { text-shadow:2px 2px 0px #000000; align-self:center;margin-top:30px;padding:20px;display:flex;justify-content: center;align-items:center;flex-flow:column;width:70vw;min-width:300px;min-height:40vh;}
+            div.screen-header {background-image: url('images/bg.jpg');text-shadow:2px 2px 0px #000000;padding-left:30px;display:flex;justify-content: center;align-items:center;width:100vw;min-width:300px;min-height:60vh;}
             div.diensten-container { display:flex;font-size:12px;flex-wrap:wrap;width:70vw;justify-content: space-between;align-content: center;}
-            div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
+            div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;padding:40px;}
             div.content-block-2{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
             .title { font-weight:bold;font-family: Tahoma}
             .screen img { width:75px;height:75px;border-radius:75px;}
@@ -39,7 +39,14 @@ const htmlTemplate = `
             div[slot="nocontent"] { height:60vh;display:flex;align-items:center;justify-content:center}
             slim-image-control { position:fixed;bottom:0px;}
             ico-wizard { z-index:5}
+            .pricing-table{margin:10px;display:flex;flex-direction: column;flex-wrap: wrap;}
+            .pricing-block{display:flex;flex-direction:column;justify-content:space-between;text-align:center;padding: 10px;min-width:300px;min-height:200px;background:var(--main-card-color);}
+            .pricing-title{font-size:20px;color:#000;display:flex;justify-content:center;background:#ebebeb;padding:10px;}
+            .undertitle{color:#000;font-size:24px;}
 
+            ul {margin-left: -40px;color:#000;list-style: none;}
+            ul li:before {content: '✓';}
+            ul li{padding:2px}
         </style>
        
 <iron-pages selected="{{selectedpage}}">
@@ -60,8 +67,7 @@ const htmlTemplate = `
             <a href="#">
                 <paper-button>meer informatie</paper-button>
             </a>
-        </div>
-        
+        </div> 
     </div>
     <!-- Einde Home -->
     <!-- Begin Diensten -->
@@ -84,8 +90,48 @@ const htmlTemplate = `
         </div>
     </section>
     <!-- Einde Diensten -->
-
-    <section></section>
+    <section>
+    <div class="pricing-table">
+            <div class="pricing-title">
+            Styling
+        </div>
+    <div class="pricing-block">
+        <div class="checklist">
+            <ul>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+            </ul>
+        </div>
+        <div class="undertitle">
+            Vanaf €29,99
+        </div>
+        <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
+    </div>
+    </div>
+    <div class="pricing-table">
+            <div class="pricing-title">
+            Styling
+        </div>
+    <div class="pricing-block">
+        <div class="checklist">
+            <ul>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+            </ul>
+        </div>
+        <div class="undertitle">
+            Vanaf €29,99
+        </div>
+        <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
+    </div>
+    </div>
+    </section>
     <section>
             <div class="fullscreen" >
                  <div class="bg" id="bg" ></div>
