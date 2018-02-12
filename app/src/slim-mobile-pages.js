@@ -19,7 +19,7 @@ const htmlTemplate = `
             div.fullscreen { left:0px;top:60px;width:100vw;height:80vh; display:flex;align-items:center}
             div.bg { position:absolute;left:0px;top:0px;width:100vw;height:100vh;filter:blur(20px);background:no-repeat center;z-index:-1;}
             div.screen-header {background-image: url('images/bg.jpg');text-shadow:2px 2px 0px #000000;padding-left:30px;display:flex;justify-content: center;align-items:center;width:100vw;min-width:300px;min-height:60vh;}
-            div.diensten-container { display:flex;font-size:12px;flex-wrap:wrap;width:70vw;justify-content: space-between;align-content: center;}
+            div.diensten-container {display:flex;font-size:12px;flex-wrap:wrap;}
             div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;padding:40px;}
             div.content-block-2{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
             .title { font-weight:bold;font-family: Tahoma}
@@ -53,7 +53,7 @@ const htmlTemplate = `
     <!-- Begin home -->
     <div>
         <div class="screen-header">
-            <h1>" Uw specialist in styling, restyling en schilderwerk in Gelderland en omstreken "</h1>
+            <h2>"Uw specialist in styling, restyling en schilderwerk in Gelderland en omstreken"</h2>
         </div>
         <div class="content-block-1">
             <h2> Welkom bij S-L-I-M </h2>
@@ -68,12 +68,57 @@ const htmlTemplate = `
                 <paper-button>meer informatie</paper-button>
             </a>
         </div> 
+        <section id="diensten" name="diensten">
+        <div class="text-center"><h2>Wij helpen u graag met:</h2></div>
+        <div class="diensten-container">
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Styling </h3>
+                    <p> Geef uw interieur een personal touch. Straal uit wie u bent! Van muurkleur tot meubelkeuze. </p>
+                </div>
+            </div>
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Restyling </h3>
+                    <p> Met betaalbare en/of bestaande middelen uw leefomgeving een nieuwe persoonlijkheid geven. </p>
+                </div>
+            </div>
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Schilderwerk </h3>
+                    <p> Zowel binnen- als buitenshuis mag goed schilderwerk gezien worden. En opvallen is niet erg! </p>
+                </div>
+            </div>
+            <div class="text-card">
+                <div class="splatter"></div>
+                <div class="text-card-top">
+                    <img src="../images/dienst1.jpg"/>
+                </div>
+                <div class="text-card-bottom">
+                    <h3> Interieuradvies </h3>
+                    <p> Spelen met licht? Bar of eethoek? Loungebank of loveseat? Vraag SLIM om advies! </p>
+                </div>
+            </div>
+        </div>
+</section>
     </div>
     <!-- Einde Home -->
     <!-- Begin Diensten -->
     <section>
         <div class="screen-header">
-            <h1>U bent vast benieuwd wat we voor u kunnen betekenen</h1>
+            <h2>Wat kunnen wij voor u betekenen?</h2>
         </div>
         <div class="content-block-1">
             <template is="dom-repeat" items="[[items]]">
@@ -91,25 +136,9 @@ const htmlTemplate = `
     </section>
     <!-- Einde Diensten -->
     <section>
-    <div class="pricing-table">
-            <div class="pricing-title">
-            Styling
-        </div>
-    <div class="pricing-block">
-        <div class="checklist">
-            <ul>
-                <li>Wij doen dit</li>
-                <li>Wij doen dit</li>
-                <li>Wij doen dit</li>
-                <li>Wij doen dit</li>
-                <li>Wij doen dit</li>
-            </ul>
-        </div>
-        <div class="undertitle">
-            Vanaf €29,99
-        </div>
-        <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
-    </div>
+    <div class="content-block-1">
+    <h2>Hier onder vind je de prijzen die wij momenteel hanteren.</h2>
+    <p> Prijzen voor onze diensten, vraag direct een offerte aan.</p>
     </div>
     <div class="pricing-table">
             <div class="pricing-title">
@@ -131,6 +160,67 @@ const htmlTemplate = `
         <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
     </div>
     </div>
+    <div class="pricing-table">
+            <div class="pricing-title">
+            Restyling
+        </div>
+    <div class="pricing-block">
+        <div class="checklist">
+            <ul>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+            </ul>
+        </div>
+        <div class="undertitle">
+            Vanaf €29,99
+        </div>
+        <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
+    </div>
+    </div>
+    <div class="pricing-table">
+            <div class="pricing-title">
+            Schilderwerk
+        </div>
+    <div class="pricing-block">
+        <div class="checklist">
+            <ul>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+            </ul>
+        </div>
+        <div class="undertitle">
+            Vanaf €29,99
+        </div>
+        <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
+    </div>
+    </div>
+    <div class="pricing-table">
+            <div class="pricing-title">
+            Interieuradvies
+        </div>
+    <div class="pricing-block">
+        <div class="checklist">
+            <ul>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+                <li>Wij doen dit</li>
+            </ul>
+        </div>
+        <div class="undertitle">
+            Vanaf €29,99
+        </div>
+        <div><a class= "btn-primary" href="#">Gratis offerte opvragen</a></div>
+    </div>
+    </div>
+
     </section>
     <section>
             <div class="fullscreen" >
@@ -140,7 +230,7 @@ const htmlTemplate = `
                 <template is="dom-repeat" items="{{portfolio}}" on-dom-change="_updateUI">
                 <div step$="{{index}}" class="image" title$="{{item.title}}" style$='background:url("{{item.photo}}") no-repeat center center;background-size: contain;height:100vh;width:100vw;z-index:{{index}};background-color:transparent'></div>
                  </template>
-                 <div slot="nocontent">no photos available</div>
+                 <div slot="nocontent">Er zijn op het moment nog geen fotos beschikbaar</div>
                 </ico-wizard>
 
                 <!-- image manipulation toolbar -->
@@ -154,7 +244,18 @@ const htmlTemplate = `
         <slim-photo-page>Photo page loading...</slim-photo-page>
     </section>
 
+    <section>
+    <div class="content-block-1">
+        <h2>Contact</h2>
+        <p>U hoeft enkel uw telefoonnummer achter te laten en wij bellen u zo snel mogelijk terug!</p>
+        </div>
+        <div class="content-block-1">
+         <paper-input class="reverse" id="title" required auto-validate label="Telefoonnummer" placeholder="0653350661" value="{{title}}"></paper-input>
+         <paper-button class="btn-secondary" role="button" tabindex="0" animated="" elevation="0" aria-disabled="false">Bel mij</paper-button>
+         </div>
+    </section>
 </iron-pages>
+<slim-footer> </slim-footer>
 `
 export class SlimMobilePages extends Element {
     static get template() {

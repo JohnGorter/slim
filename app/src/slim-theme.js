@@ -223,19 +223,14 @@ p { margin:0px;}
     height: 300px;
     background:#fff;
     color: #333;
-    margin: 40px 40px 0px 0px;
+    margin:20px 20px 20px 20px;
     border-radius: 15px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .text-card:hover {
-    width: 220px;
-    border-radius: 15px;
-    height: 300px;
     background:#BFC218;
     color: #fff;
-    margin: 40px 40px 0px 0px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .splatter{
@@ -281,12 +276,24 @@ p { margin:0px;}
 /* Footer */
 
   #footer {
-    height: 150px;
     background-color: #232323;
     padding: 67px;
     display: flex;
     justify-content: flex-end;
     }
+
+    .footer-content{
+        display:flex;
+        justify-content:space-between;
+        max-width: 500px;
+        flex-wrap: wrap;
+    }
+
+    @media only screen and (max-width: 500px) {
+        .footer-content{
+            justify-content: center;
+        }
+}
 
     #footer a {
         color: #fff;
@@ -309,15 +316,15 @@ p { margin:0px;}
         list-style-type: none;
     }
 
-    .md-2 {
-        width: 25%;
+    .footer-contact{
+        min-width:300px;
+        flex-wrap:wrap
     }
 
-    .md-4 {
-        width: 50%;
-    }
     .footer-menu {
         line-height: 2.5;
+        min-width: 300px;
+        flex-wrap:wrap
     }
 
 
@@ -382,6 +389,12 @@ p { margin:0px;}
                         background-color: var(--app-toolbar-background, white);
                     }
                 }
+
+                .call-me-form{
+                    width: 300px;
+                    justify-content: center;
+                }
+
 
 
                 /* @media (max-width: 425px) {

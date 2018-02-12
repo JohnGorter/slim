@@ -20,7 +20,7 @@ const htmlTemplate = `
 
 <section id="diensten" name="diensten">
         <div class="text-center"> <h2> Waarmee kunnen wij u van dienst zijn? </h2> </div>
-        <div class="diensten-container center">
+        <div class="diensten-container">
             <div class="text-card">
                 <div class="splatter"></div>
                 <div class="text-card-top">
@@ -62,8 +62,6 @@ const htmlTemplate = `
                 </div>
             </div>
         </div>
-
-       
 </section>
 
 <section id="testimonials" name="testimonals">

@@ -4,7 +4,8 @@ import { Element } from '/node_modules/@polymer/polymer/polymer-element.js'
 const htmlTemplate = `
     <style include="slim-theme"> </style>
     <section id="footer">
-        <div class="md-2">
+    <div class="footer-content">
+        <div class="footer-contact">
             <h1>Neem contact op</h1>
                 <ul>
                     <li>Gerald van Dongen</li>
@@ -13,12 +14,13 @@ const htmlTemplate = `
                 </ul>
         </div>
 
-        <div class="md-2 footer-menu">
+        <div class="footer-menu">
                 <ul>
                     <li><a href="#">Sitemap</a></li>
                     <li><a href="#">Contact</a></li>
                     <li><a href="#">Diensten</a></li>
                 </ul>
+        </div>
         </div>
     </section>
 `
