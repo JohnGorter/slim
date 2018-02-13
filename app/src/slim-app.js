@@ -58,7 +58,6 @@ const htmlTemplate = `
     <paper-item>Diensten</paper-item>
     <paper-item>Tarieven</paper-item>
     <paper-item>Portfolio</paper-item>
-    <paper-item>Photo page</paper-item>
     <paper-item>Contact</paper-item>
     </paper-listbox>
     <div class="footer">

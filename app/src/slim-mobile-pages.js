@@ -18,7 +18,7 @@ const htmlTemplate = `
             }
             div.fullscreen { left:0px;top:60px;width:100vw;height:80vh; display:flex;align-items:center}
             div.bg { position:absolute;left:0px;top:0px;width:100vw;height:100vh;filter:blur(20px);background:no-repeat center;z-index:-1;}
-            div.screen-header {background-image: url('images/bg.jpg');text-shadow:2px 2px 0px #000000;padding-left:30px;display:flex;justify-content: center;align-items:center;width:100vw;min-width:300px;min-height:60vh;}
+            div.screen-header {background-image: url('images/bg.jpg');text-shadow:2px 2px 0px #000000;padding-left:30px;padding-right:30px;display:flex;justify-content: center;align-items:center;min-width:300px;min-height:60vh;}
             div.diensten-container {display:flex;font-size:12px;flex-wrap:wrap;}
             div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;padding:40px;}
             div.content-block-2{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
@@ -26,9 +26,9 @@ const htmlTemplate = `
             .screen img { width:75px;height:75px;border-radius:75px;}
             .screen .text-card { margin:10px;display:flex;flex-direction: column;justify-content:center;text-align:center;align-items: center}
             /* Cards */
-            paper-card{--paper-card-header-color: var(--font-color-primary); max-width:90vw; z-index:-1; margin-bottom: 20px;};
+            paper-card{--paper-card-header-color: var(--font-color-primary);  z-index:-1; margin-top: 20px;};
             .card-content{color: var(--font-color-secondary)};
-
+            paper-input { text-align:center;}
             /* Buttons */
             a {text-decoration: none;}
             paper-button {color: var(--font-color-primary); margin: 10px;}
@@ -68,51 +68,7 @@ const htmlTemplate = `
                 <paper-button>meer informatie</paper-button>
             </a>
         </div> 
-        <section id="diensten" name="diensten">
-        <div class="text-center"><h2>Wij helpen u graag met:</h2></div>
-        <div class="diensten-container">
-            <div class="text-card">
-                <div class="splatter"></div>
-                <div class="text-card-top">
-                    <img src="../images/dienst1.jpg"/>
-                </div>
-                <div class="text-card-bottom">
-                    <h3> Styling </h3>
-                    <p> Geef uw interieur een personal touch. Straal uit wie u bent! Van muurkleur tot meubelkeuze. </p>
-                </div>
-            </div>
-            <div class="text-card">
-                <div class="splatter"></div>
-                <div class="text-card-top">
-                    <img src="../images/dienst1.jpg"/>
-                </div>
-                <div class="text-card-bottom">
-                    <h3> Restyling </h3>
-                    <p> Met betaalbare en/of bestaande middelen uw leefomgeving een nieuwe persoonlijkheid geven. </p>
-                </div>
-            </div>
-            <div class="text-card">
-                <div class="splatter"></div>
-                <div class="text-card-top">
-                    <img src="../images/dienst1.jpg"/>
-                </div>
-                <div class="text-card-bottom">
-                    <h3> Schilderwerk </h3>
-                    <p> Zowel binnen- als buitenshuis mag goed schilderwerk gezien worden. En opvallen is niet erg! </p>
-                </div>
-            </div>
-            <div class="text-card">
-                <div class="splatter"></div>
-                <div class="text-card-top">
-                    <img src="../images/dienst1.jpg"/>
-                </div>
-                <div class="text-card-bottom">
-                    <h3> Interieuradvies </h3>
-                    <p> Spelen met licht? Bar of eethoek? Loungebank of loveseat? Vraag SLIM om advies! </p>
-                </div>
-            </div>
-        </div>
-</section>
+        
     </div>
     <!-- Einde Home -->
     <!-- Begin Diensten -->
@@ -120,7 +76,7 @@ const htmlTemplate = `
         <div class="screen-header">
             <h2>Wat kunnen wij voor u betekenen?</h2>
         </div>
-        <div class="content-block-1">
+        <div class="content-block-1" style="padding:0px;">
             <template is="dom-repeat" items="[[items]]">
                 <paper-card heading="[[item.name]]" image="[[item.picture]]">
                     <div class="card-content">
@@ -241,10 +197,6 @@ const htmlTemplate = `
         </div>
     </section>
     <section>
-        <slim-photo-page>Photo page loading...</slim-photo-page>
-    </section>
-
-    <section>
     <div class="content-block-1">
         <h2>Contact</h2>
         <p>U hoeft enkel uw telefoonnummer achter te laten en wij bellen u zo snel mogelijk terug!</p>
@@ -255,7 +207,7 @@ const htmlTemplate = `
          </div>
     </section>
 </iron-pages>
-<slim-footer> </slim-footer>
+
 `
 export class SlimMobilePages extends Element {
     static get template() {
