@@ -20,8 +20,7 @@ const htmlTemplate = `
             div.bg { position:absolute;left:0px;top:0px;width:100vw;height:100vh;filter:blur(20px);background:no-repeat center;z-index:-1;}
             div.screen-header {background-image: url('images/bg.jpg');text-shadow:2px 2px 0px #000000;padding-left:30px;padding-right:30px;display:flex;justify-content: center;align-items:center;min-width:300px;min-height:60vh;}
             div.diensten-container {display:flex;font-size:12px;flex-wrap:wrap;}
-            div.content-block-1{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;padding:40px;}
-            div.content-block-2{align-self:center;display:flex;justify-content: center;align-items:center;flex-flow:column;width:90vw;min-width:300px;min-height:30vh;}
+            
             .title { font-weight:bold;font-family: Tahoma}
             .screen img { width:75px;height:75px;border-radius:75px;}
             .screen .text-card { margin:10px;display:flex;flex-direction: column;justify-content:center;text-align:center;align-items: center}
@@ -30,23 +29,10 @@ const htmlTemplate = `
             .card-content{color: var(--font-color-secondary)};
             paper-input { text-align:center;}
             /* Buttons */
-            a {text-decoration: none;}
-            paper-button {color: var(--font-color-primary); margin: 10px;}
-            paper-button.btn-inverse{color: var(--font-color-secondary); margin: 10px;}
-            paper-button.btn-primary {background-color: var(--positive-highlight);color: white; text-decoration:none;}
-            paper-button.btn-secondary{background-color: var(--positive-highlight);color: white;}   
-
+            a {text-decoration: none;} 
             div[slot="nocontent"] { height:60vh;display:flex;align-items:center;justify-content:center}
             slim-image-control { position:fixed;bottom:0px;}
             ico-wizard { z-index:5}
-            .pricing-table{margin:10px;display:flex;flex-direction: column;flex-wrap: wrap;}
-            .pricing-block{display:flex;flex-direction:column;justify-content:space-between;text-align:center;padding: 10px;min-width:300px;min-height:200px;background:var(--main-card-color);}
-            .pricing-title{font-size:20px;color:#000;display:flex;justify-content:center;background:#ebebeb;padding:10px;}
-            .undertitle{color:#000;font-size:24px;}
-
-            ul {margin-left: -40px;color:#000;list-style: none;}
-            ul li:before {content: '✓';}
-            ul li{padding:2px}
         </style>
        
 <iron-pages selected="{{selectedpage}}">
@@ -207,6 +193,7 @@ const htmlTemplate = `
          </div>
     </section>
 </iron-pages>
+<slim-footer></slim-footer>
 
 `
 export class SlimMobilePages extends Element {
